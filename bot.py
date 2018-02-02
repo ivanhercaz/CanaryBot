@@ -1,9 +1,36 @@
 # -*- coding: utf-8 -*-
 import colorama as c
-import datetime, sys, os, inquirer
+import datetime, sys, os, inquirer, os
+import setlabeldesc as sld
+# import setlabeldesc as sld
 # Pywikibot is executed in each script
 
 cR = c.Style.RESET_ALL
+
+def massiveDesc():
+    for root, dirs, files in os.walk("queries"):
+        for filename in files:
+            print(filename)
+    questions = [
+        inquirer.Text("queries", message = "¿Qué consulta quieres utilizar?"),
+        inquirer.Text("lang", message = "¿En qué idioma está la descripción que quieres introducir?")
+    ]
+
+    answers = inquirer.prompt(questions)
+
+    if answers["queries"] == filename:
+        print("Fine!")
+
+        with open("queries/" + filename, "r") as queryFile:
+            query = queryFile.read()
+
+
+        sld.setLabel(query)
+    else:
+        print(u"No existe ese archivo. Créalo o introduce otro nombre.")
+
+def removeEndPoint():
+    print("Test EndPoint")
 
 if __name__ == '__main__':
     now = datetime.datetime.now()
@@ -60,6 +87,11 @@ if __name__ == '__main__':
         answers = inquirer.prompt(tasks)
 
         print("Aún no están preparados los scripts")
+
+        if answers["wikidata"] == "Descripciones de un idioma a otro":
+            massiveDesc()
+        else:
+            print("error -:::-")
 
     elif answers["projects"] == "testwikidata":
         tasks = {
