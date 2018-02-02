@@ -1,6 +1,10 @@
-# Directories #
+# Piwikibot #
 ###############
 /core
+/apicache-py2
+*.pyc
+*.ctrl
+user-config.py
 
 # Compiled source #
 ###################
