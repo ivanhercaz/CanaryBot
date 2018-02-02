@@ -13,10 +13,13 @@ def massiveDesc():
             print(filename)
     questions = [
         inquirer.Text("queries", message = "¿Qué consulta quieres utilizar?"),
-        inquirer.Text("lang", message = "¿En qué idioma está la descripción que quieres introducir?")
+        inquirer.Text("lang", message = "¿En qué idioma está la descripción que quieres introducir?"),
+        inquirer.Text("sourceLang", message = "¿De que idioma quieres trabajar y copiar la etiqueta?")
     ]
 
     answers = inquirer.prompt(questions)
+    lang = answers["lang"]
+    sourceLang = answers["sourceLang"]
 
     if answers["queries"] == filename:
         print("Fine!")
@@ -25,7 +28,7 @@ def massiveDesc():
             query = queryFile.read()
 
 
-        sld.setLabel(query)
+        sld.setLabel(query, lang, sourceLang)
     else:
         print(u"No existe ese archivo. Créalo o introduce otro nombre.")
 
