@@ -22,9 +22,9 @@ def setLabel(query, lang, sourceLang):
     langFilled = 0
 
     for village in sparqlQuery(query):
-        if (src) in village.labels:
-            sourceLang = village.labels["sourceLang"]
-            if (lang) in village.labels:
+        if sourceLang in village.labels:
+            sourceLang = village.labels[sourceLang]
+            if lang in village.labels:
                 lang = village.labels[lang]
                 langFilled += 1
                 existed = u"¡Ya existe la etiqueta en español! Revisar descripción %s-%d-%d-%d-[%s]-<%s>" % (village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
