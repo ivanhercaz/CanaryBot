@@ -27,7 +27,6 @@ def massiveDesc():
         with open("queries/" + filename, "r") as queryFile:
             query = queryFile.read()
 
-
         sld.setLabel(query, lang, sourceLang)
     else:
         print(u"No existe ese archivo. Créalo o introduce otro nombre.")

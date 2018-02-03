@@ -30,6 +30,7 @@ def setLabel(query, lang, sourceLang):
                 existed = u"¡Ya existe la etiqueta en español! Revisar descripción %s-%d-%d-%d-[%s]-<%s>" % (village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
                 print(existed)
 
+
                 logging.basicConfig(
                     filename = "../logs/indonesian-village.log",
                     level = logging.INFO,
