@@ -23,7 +23,7 @@ def check(info, script):
     now = datetime.datetime.now()
     nowFormat = now.strftime("%Y-%m-%d %H:%M")
 
-    fullNameLog = logDir + nowFormat + script + ".log"
+    fullNameLog = logDir + nowFormat + "-" + script + ".log"
 
     if os.path.exists(logDir):
         update(info, fullNameLog, nowFormat)
