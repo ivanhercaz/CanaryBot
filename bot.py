@@ -7,7 +7,22 @@ import setlabeldesc as sld
 
 cR = c.Style.RESET_ALL
 
+def editMode():
+    editMode = [
+        inquirer.List("editMode",
+            message = "Elige el modo de edición",
+            choices = ["Modo de pruebas", "Modo editar"],
+        ),
+    ]
+
+    answers = inquirer.prompt(editMode)
+
+    if answers["editMode"] == u"Modo editar":
+        edit = True
+        return edit
+
 def massiveDesc():
+    edit = editMode()
     for root, dirs, files in os.walk("queries"):
         for filename in files:
             print(filename)
@@ -27,7 +42,7 @@ def massiveDesc():
         with open("queries/" + filename, "r") as queryFile:
             query = queryFile.read()
 
-        sld.setLabel(query, lang, sourceLang)
+        sld.setLabel(query, lang, sourceLang, edit)
     else:
         print(u"No existe ese archivo. Créalo o introduce otro nombre.")
 
@@ -48,6 +63,7 @@ if __name__ == '__main__':
       ^ ^
   ------------------------------------------------------------------------
     """)
+
     projects = [
         inquirer.List("projects",
             message = "Proyectos disponibles:",
