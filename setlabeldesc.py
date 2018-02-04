@@ -8,7 +8,7 @@ import logging, log
 import pywikibot
 from pywikibot import pagegenerators as pg
 
-# Globa variables
+# Global variables
 scriptName = "setlabeldesc"
 
 def sparqlQuery(query):
@@ -20,8 +20,14 @@ def sparqlQuery(query):
       wd.get(get_redirect = True)
       yield wd
 
-def setLabel(query, lang, sourceLang):
-    script = scriptName + "-" + sourceLang + "-" + lang
+def setLabel(query, lang, sourceLang, edit = False):
+    # Check if the script is running a test or is making editions
+    if edit == True:
+        script = scriptName + "-" + sourceLang + "-" + lang
+        print("Modo de edición")
+    else:
+        script = scriptName + "-test-" + sourceLang + "-" + lang
+        print("Modo de pruebas")
 
     langBlank = 0
     langFilled = 0
@@ -43,14 +49,24 @@ def setLabel(query, lang, sourceLang):
                 data.update({"descriptions": {lang: "pueblo de Indonesia"}})
 
                 print("[%s]-<%s>" % (lang, sourceLang))
-                try:
-                    # The next line is commented to test the script without making changes in Wikidata
-                    #village.editEntity(data, summary = u"set lang-label and lang-desc from sourceLang-wiki")
-                    print(data)
 
-                    log.check(data, script)
-                except:
-                    pass
+                if edit == True:
+                    try:
+                        # The next line is commented to test the script without making changes in Wikidata
+                        #village.editEntity(data, summary = u"set lang-label and lang-desc from sourceLang-wiki")
+                        print("Se ha editado el elemento.\n" + data)
+                        log.check(data, script)
+                    except:
+                        pass
+                if edit == False:
+                    try:
+                        print("No se ha editado el elemento (modo de pruebas).\n" + data)
+                        log.check(data, script)
+                    except:
+                        pass
+                else:
+                    print("Algo no ha funcionado correctamente")
+
         else:
             notExisted = u"¡No existe la etiqueta en indonesio! %s-%d-%d-%d-[%s]-<%s>" % (village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
             print(notExisted)
