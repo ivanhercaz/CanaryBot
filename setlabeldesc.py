@@ -52,8 +52,7 @@ def setLabel(query, lang, sourceLang, edit = False):
 
                 if edit == True:
                     try:
-                        # The next line is commented to test the script without making changes in Wikidata
-                        #village.editEntity(data, summary = u"set lang-label and lang-desc from sourceLang-wiki")
+                        village.editEntity(data, summary = u"set " + lang + "-label and" + lang + "-desc from " + sourceLang + "-wiki")
                         print("Se ha editado el elemento.\n" + data)
                         log.check(data, script)
                     except:
