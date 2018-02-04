@@ -34,4 +34,4 @@ def check(info, script):
 
 # This is here to test the module by default, without the necessity to make changes in any script file.
 # When the module will be fine tested and ready to use in the scripts, this will be deleted.
-# ask()
+# check()
