@@ -38,7 +38,7 @@ def setLabel(query, lang, sourceLang, edit = False):
             if lang in village.labels:
                 lang = village.labels[lang]
                 langFilled += 1
-                existed = u"¡Ya existe la etiqueta en español! Revisar descripción: %s-%d-%d-%d-[%s]-<%s>" % (village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
+                existed = u"¡Ya existe la etiqueta en {}! Revisar descripción: {}-{}-{}-{}-[{}]-<{}>".format(lang, village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
 
                 log.check(existed, script)
             else:
@@ -52,7 +52,7 @@ def setLabel(query, lang, sourceLang, edit = False):
 
                 if edit == True:
                     try:
-                        village.editEntity(data, summary = u"set " + lang + "-label and" + lang + "-desc from " + sourceLang + "-wiki")
+                        village.editEntity(data, summary = u"set {}-label and {}-desc from {}-wiki".format(lang, sourceLang))
                         print("Se ha editado el elemento.\n" + data)
                         log.check(data, script)
                     except:
@@ -67,7 +67,7 @@ def setLabel(query, lang, sourceLang, edit = False):
                     print("Algo no ha funcionado correctamente")
 
         else:
-            notExisted = u"¡No existe la etiqueta en indonesio! %s-%d-%d-%d-[%s]-<%s>" % (village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
+            notExisted = u"¡No existe la etiqueta en {}! {}-{}-{}-{}-[{}]-<{}>".format(sourceLang, village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
             print(notExisted)
 
             log.check(notExisted, script)
