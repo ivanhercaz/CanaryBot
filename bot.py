@@ -2,12 +2,14 @@
 import colorama as c
 import datetime, sys, os, inquirer, os
 import setlabeldesc as sld
-# import setlabeldesc as sld
 # Pywikibot is executed in each script
 
 cR = c.Style.RESET_ALL
 
 def editMode():
+    ''' Function to work like an easy and clean way to choose the edition mode,
+    otherwhise this could would have in each one '''
+
     editMode = [
         inquirer.List("editMode",
             message = "Elige el modo de edición",
@@ -22,10 +24,17 @@ def editMode():
         return edit
 
 def massiveDesc():
+    ''' Prepare the execution of setlabeldesc.py
+        Add labels and description to an item given an specific source lang'''
+
     edit = editMode()
+
+    # Checking filenames
     for root, dirs, files in os.walk("queries"):
         for filename in files:
-            print(filename)
+            enumerate(files)
+
+    print("Hay {} consultas disponibles.\n".format(len(files)))
 
     queries = [
         inquirer.List("queries",
