@@ -55,13 +55,17 @@ def setLabel(query, desc, lang, sourceLang, edit = False):
                         village.editEntity(data, summary = u"set {0}-label and {0}-desc from {1}-wiki".format(lang, sourceLang))
                         print("Se ha editado el elemento.\n" + data)
                         log.check(data, script)
-                    except:
+                    except Exception as e:
+                        print(e)
+                        log.check(e, script)
                         pass
                 if edit == False:
                     try:
                         print("No se ha editado el elemento (modo de pruebas).\n" + data)
                         log.check(data, script)
-                    except:
+                    except Exception as e:
+                        print(e)
+                        log.check(e, script)
                         pass
                 else:
                     print("Algo no ha funcionado correctamente")
