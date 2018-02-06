@@ -48,11 +48,11 @@ def setLabel(query, lang, sourceLang, edit = False):
                 data.update({"labels": {lang: sourceLang} })
                 data.update({"descriptions": {lang: "pueblo de Indonesia"}})
 
-                print("[%s]-<%s>" % (lang, sourceLang))
+                print("[{}]-<{}>".format(lang, sourceLang))
 
                 if edit == True:
                     try:
-                        village.editEntity(data, summary = u"set {}-label and {}-desc from {}-wiki".format(lang, sourceLang))
+                        village.editEntity(data, summary = u"set {0}-label and {0}-desc from {1}-wiki".format(lang, sourceLang))
                         print("Se ha editado el elemento.\n" + data)
                         log.check(data, script)
                     except:
