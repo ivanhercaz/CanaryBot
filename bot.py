@@ -26,23 +26,34 @@ def massiveDesc():
     for root, dirs, files in os.walk("queries"):
         for filename in files:
             print(filename)
+
+    queries = [
+        inquirer.List("queries",
+            message = "Qué consulta quieres utilizar?",
+            choices = files
+        ),
+    ]
+
+    queriesAnswer = inquirer.prompt(queries)
+
     questions = [
-        inquirer.Text("queries", message = "¿Qué consulta quieres utilizar?"),
+        inquirer.Text("desc", message = "Escribe la descripción que quieres añadir"),
         inquirer.Text("lang", message = "¿En qué idioma está la descripción que quieres introducir?"),
         inquirer.Text("sourceLang", message = "¿De que idioma quieres trabajar y copiar la etiqueta?")
     ]
 
     answers = inquirer.prompt(questions)
+    desc = answers["desc"]
     lang = answers["lang"]
     sourceLang = answers["sourceLang"]
 
-    if answers["queries"] == filename:
+    if queriesAnswer["queries"] == filename:
         print("Fine!")
 
         with open("queries/" + filename, "r") as queryFile:
             query = queryFile.read()
 
-        sld.setLabel(query, lang, sourceLang, edit)
+        sld.setLabel(query, desc, lang, sourceLang, edit)
     else:
         print(u"No existe ese archivo. Créalo o introduce otro nombre.")
 

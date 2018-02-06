@@ -20,7 +20,7 @@ def sparqlQuery(query):
       wd.get(get_redirect = True)
       yield wd
 
-def setLabel(query, lang, sourceLang, edit = False):
+def setLabel(query, desc, lang, sourceLang, edit = False):
     # Check if the script is running a test or is making editions
     if edit == True:
         script = scriptName + "-" + sourceLang + "-" + lang
@@ -46,7 +46,7 @@ def setLabel(query, lang, sourceLang, edit = False):
 
                 data = {}
                 data.update({"labels": {lang: sourceLang} })
-                data.update({"descriptions": {lang: "pueblo de Indonesia"}})
+                data.update({"descriptions": {lang: desc} })
 
                 print("[{}]-<{}>".format(lang, sourceLang))
 
