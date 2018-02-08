@@ -2,6 +2,7 @@
 import colorama as c
 import datetime, sys, os, inquirer, os
 import setlabeldesc as sld
+from pathlib import Path
 # Pywikibot is executed in each script
 
 cR = c.Style.RESET_ALL
@@ -30,9 +31,13 @@ def massiveDesc():
     edit = editMode()
 
     # Checking filenames
-    for root, dirs, files in os.walk("queries"):
-        for filename in files:
-            enumerate(files)
+    f = []
+
+    for (dirs, dirsNames, files) in os.walk("queries"):
+        f.extend(files)
+        for filename in enumerate(files):
+            filenames = filename
+            print(filenames)
 
     print("Hay {} consultas disponibles.\n".format(len(files)))
 
@@ -44,6 +49,9 @@ def massiveDesc():
     ]
 
     queriesAnswer = inquirer.prompt(queries)
+    queriesAnswer = str(queriesAnswer)
+    queriesAnswer = queriesAnswer[13:].strip("'}")
+    fileQuery = Path("queries/{}".format(queriesAnswer))
 
     questions = [
         inquirer.Text("desc", message = "Escribe la descripción que quieres añadir"),
@@ -56,14 +64,15 @@ def massiveDesc():
     lang = answers["lang"]
     sourceLang = answers["sourceLang"]
 
-    if queriesAnswer["queries"] == filename:
-        print("Fine!")
+    try:
+        print("\nSe ejecutará la consulta {}".format(queriesAnswer))
 
-        with open("queries/" + filename, "r") as queryFile:
+        with open("queries/" + queriesAnswer, "r") as queryFile:
             query = queryFile.read()
 
         sld.setLabel(query, desc, lang, sourceLang, edit)
-    else:
+    except FileNotFoundError:
+        print("\nLa consulta {} no existe".format(queriesAnswer))
         print(u"No existe ese archivo. Créalo o introduce otro nombre.")
 
 def removeEndPoint():

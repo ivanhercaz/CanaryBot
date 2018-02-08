@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# This script is a derivative work of the Edoderoobot's script labels-indonesian-villages.py
+# This script is a derivative work of the Edoderoobot's script labels-indonesian-item..py
 # made by Edoderoo for Wikidata. You can check the original source code here:
-# https://www.wikidata.org/wiki/User:Edoderoobot/labels-indonesian-villages.py
+# https://www.wikidata.org/wiki/User:Edoderoobot/labels-indonesian-item..py
 # Now I am working on this script to make more powerful and useful for different cases
 
 import log
@@ -24,21 +24,21 @@ def setLabel(query, desc, lang, sourceLang, edit = False):
     # Check if the script is running a test or is making editions
     if edit == True:
         script = scriptName + "-" + sourceLang + "-" + lang
-        print("Modo de edición")
+        print("\nModo de edición")
     else:
         script = scriptName + "-test-" + sourceLang + "-" + lang
-        print("Modo de pruebas")
+        print("\nModo de pruebas")
 
     langBlank = 0
     langFilled = 0
 
-    for village in sparqlQuery(query):
-        if sourceLang in village.labels:
-            sourceLang = village.labels[sourceLang]
-            if lang in village.labels:
-                lang = village.labels[lang]
+    for item in sparqlQuery(query):
+        if sourceLang in item.labels:
+            sourceLang = item.labels[sourceLang]
+            if lang in item.labels:
+                lang = item.labels[lang]
                 langFilled += 1
-                existed = u"¡Ya existe la etiqueta en {}! Revisar descripción: {}-{}-{}-{}-[{}]-<{}>".format(lang, village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
+                existed = u"¡Ya existe la etiqueta en {}! Revisar descripción: {}-{}-{}-{}-[{}]-<{}>".format(lang, item.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
 
                 log.check(existed, script)
             else:
@@ -52,7 +52,7 @@ def setLabel(query, desc, lang, sourceLang, edit = False):
 
                 if edit == True:
                     try:
-                        village.editEntity(data, summary = u"set {0}-label and {0}-desc from {1}-wiki".format(lang, sourceLang))
+                        item.editEntity(data, summary = u"set {0}-label and {0}-desc from {1}-wiki".format(lang, sourceLang))
                         print("Se ha editado el elemento.\n" + data)
                         log.check(data, script)
                     except Exception as e:
@@ -71,7 +71,7 @@ def setLabel(query, desc, lang, sourceLang, edit = False):
                     print("Algo no ha funcionado correctamente")
 
         else:
-            notExisted = u"¡No existe la etiqueta en {}! {}-{}-{}-{}-[{}]-<{}>".format(sourceLang, village.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
+            notExisted = u"¡No existe la etiqueta en {}! {}-{}-{}-{}-[{}]-<{}>".format(sourceLang, item.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
             print(notExisted)
 
             log.check(notExisted, script)
