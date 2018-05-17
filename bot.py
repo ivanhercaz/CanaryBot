@@ -2,6 +2,7 @@
 import colorama as c
 import datetime, sys, os, inquirer, os
 import setlabeldesc as sld
+import setlabeldescalias as slda
 from pathlib import Path
 # Pywikibot is executed in each script
 
@@ -75,8 +76,12 @@ def massiveDesc():
         print("\nLa consulta {} no existe".format(queriesAnswer))
         print(u"No existe ese archivo. Créalo o introduce otro nombre.")
 
-def removeEndPoint():
-    print("Test EndPoint")
+def setLabelDescAlias():
+    print("Preparing the script!")
+
+
+def removeFullStop():
+    print("Preparing the script!")
 
 if __name__ == '__main__':
     now = datetime.datetime.now()
@@ -137,6 +142,8 @@ if __name__ == '__main__':
 
         if answers["wikidata"] == "Descripciones de un idioma a otro":
             massiveDesc()
+        elif answers["wikidata"] == "Retirar punto y final a las descripciones":
+            removeFullStop()
         else:
             print("error -:::-")
 
@@ -144,11 +151,16 @@ if __name__ == '__main__':
         tasks = {
             inquirer.List("testwikidata",
                 message = "Tareas disponibles:",
-                choices = ["Descripciones de un idioma a otro", "Retirar punto y final a las descripciones",
+                choices = ["SetLabelDescAlias",
                             "..."],
             ),
         }
 
-        print("Aún no están preparados los scripts")
+        answers = inquirer.prompt(tasks)
+
+        if answers["testwikidata"] == "SetLabelDescAlias":
+            setLabelDescAlias()
+        else:
+            print("error -:::-")
     else:
         print("¡Algo no fue como debía!")
