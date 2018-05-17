@@ -8,14 +8,15 @@ from pathlib import Path
 
 cR = c.Style.RESET_ALL
 
+
 def editMode():
     ''' Function to work like an easy and clean way to choose the edition mode,
     otherwhise this could would have in each one '''
 
     editMode = [
         inquirer.List("editMode",
-            message = "Elige el modo de edición",
-            choices = ["Modo de pruebas", "Modo editar"],
+            message="Elige el modo de edición",
+            choices=["Modo de pruebas", "Modo editar"],
         ),
     ]
 
@@ -24,6 +25,7 @@ def editMode():
     if answers["editMode"] == u"Modo editar":
         edit = True
         return edit
+
 
 def massiveDesc():
     ''' Prepare the execution of setlabeldesc.py
@@ -44,8 +46,8 @@ def massiveDesc():
 
     queries = [
         inquirer.List("queries",
-            message = "Qué consulta quieres utilizar?",
-            choices = files
+            message="Qué consulta quieres utilizar?",
+            choices=files
         ),
     ]
 
@@ -55,9 +57,9 @@ def massiveDesc():
     fileQuery = Path("queries/{}".format(queriesAnswer))
 
     questions = [
-        inquirer.Text("desc", message = "Escribe la descripción que quieres añadir"),
-        inquirer.Text("lang", message = "¿En qué idioma está la descripción que quieres introducir?"),
-        inquirer.Text("sourceLang", message = "¿De que idioma quieres trabajar y copiar la etiqueta?")
+        inquirer.Text("desc", message="Escribe la descripción que quieres añadir"),
+        inquirer.Text("lang", message="¿En qué idioma está la descripción que quieres introducir?"),
+        inquirer.Text("sourceLang", message="¿De que idioma quieres trabajar y copiar la etiqueta?")
     ]
 
     answers = inquirer.prompt(questions)
@@ -76,12 +78,14 @@ def massiveDesc():
         print("\nLa consulta {} no existe".format(queriesAnswer))
         print(u"No existe ese archivo. Créalo o introduce otro nombre.")
 
+
 def setLabelDescAlias():
     print("Preparing the script!")
 
 
 def removeFullStop():
     print("Preparing the script!")
+
 
 if __name__ == '__main__':
     now = datetime.datetime.now()
@@ -100,8 +104,8 @@ if __name__ == '__main__':
 
     projects = [
         inquirer.List("projects",
-            message = "Proyectos disponibles:",
-            choices = ["eswiki", "testwiki", "wikidata", "testwikidata"],
+            message="Proyectos disponibles:",
+            choices=["eswiki", "testwiki", "wikidata", "testwikidata"],
         ),
     ]
 
@@ -110,8 +114,8 @@ if __name__ == '__main__':
     if answers["projects"] == "eswiki":
         tasks = {
             inquirer.List("eswikiTasks",
-                message = "Tareas disponibles:",
-                choices = ["Control de autoridades", "Sustituir multimedia"],
+                message="Tareas disponibles:",
+                choices=["Control de autoridades", "Sustituir multimedia"],
             ),
         }
 
@@ -120,8 +124,8 @@ if __name__ == '__main__':
     elif answers["projects"] == "testwiki":
         tasks = {
             inquirer.List("testwikiTaks",
-                message = "Tareas disponibles:",
-                choices = ["Control de autoridades", "Sustituir multimedia"],
+                message="Tareas disponibles:",
+                choices=["Control de autoridades", "Sustituir multimedia"],
             ),
         }
 
@@ -130,9 +134,9 @@ if __name__ == '__main__':
     elif answers["projects"] == "wikidata":
         tasks = {
             inquirer.List("wikidata",
-                message = "Tareas disponibles:",
-                choices = ["Descripciones de un idioma a otro", "Retirar punto y final a las descripciones",
-                            "..."],
+                message="Tareas disponibles:",
+                choices=["Descripciones de un idioma a otro", "Retirar punto y final a las descripciones",
+                        "..."],
             ),
         }
 
@@ -150,9 +154,9 @@ if __name__ == '__main__':
     elif answers["projects"] == "testwikidata":
         tasks = {
             inquirer.List("testwikidata",
-                message = "Tareas disponibles:",
-                choices = ["SetLabelDescAlias",
-                            "..."],
+                message="Tareas disponibles:",
+                choices=["SetLabelDescAlias",
+                    "..."],
             ),
         }
 
