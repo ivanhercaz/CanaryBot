@@ -13,56 +13,59 @@ from pathlib import Path
 cR = c.Style.RESET_ALL
 
 
-def editMode():
-    ''' Function to work like an easy and clean way to choose the edition mode,
-    otherwhise this could would have in each one '''
+class Utilities:
+    ''' Class for useful snippets '''
 
-    editMode = [
-        inquirer.List("editMode",
-            message="Elige el modo de edición",
-            choices=["Modo de pruebas", "Modo editar"],
-        ),
-    ]
+    def editMode(self):
+        ''' Function to work like an easy and clean way to choose the edition mode,
+        otherwhise this could would have in each one '''
 
-    answers = inquirer.prompt(editMode)
+        editMode = [
+            inquirer.List("editMode",
+                message="Elige el modo de edición",
+                choices=["Modo de pruebas", "Modo editar"],
+            ),
+        ]
 
-    if answers["editMode"] == u"Modo editar":
-        edit = True
-        return edit
+        answers = inquirer.prompt(editMode)
 
+        if answers["editMode"] == u"Modo editar":
+            edit = True
+            return edit
 
-def checkQueries():
-    f = []
+    def checkQueries(self):
+        f = []
 
-    for (dirs, dirsNames, files) in os.walk("queries"):
-        f.extend(files)
-        for filename in enumerate(files):
-            filenames = filename
-            print(filenames)
+        for (dirs, dirsNames, files) in os.walk("queries"):
+            f.extend(files)
+            for filename in enumerate(files):
+                filenames = filename
+                print(filenames)
 
-    print("Hay {} consultas disponibles.\n".format(len(files)))
+        print("Hay {} consultas disponibles.\n".format(len(files)))
 
-    queries = [
-        inquirer.List("queries",
-            message="Qué consulta quieres utilizar?",
-            choices=files
-        ),
-    ]
+        queries = [
+            inquirer.List("queries",
+                message="Qué consulta quieres utilizar?",
+                choices=files
+            ),
+        ]
 
-    queriesAnswer = inquirer.prompt(queries)
-    queriesAnswer = str(queriesAnswer)
-    queriesAnswer = queriesAnswer[13:].strip("'}")
+        queriesAnswer = inquirer.prompt(queries)
+        queriesAnswer = str(queriesAnswer)
+        queriesAnswer = queriesAnswer[13:].strip("'}")
 
-    return queriesAnswer
+        return queriesAnswer
 
 
 def massiveDesc():
     ''' Prepare the execution of setlabeldesc.py
         Add labels and description to an item given an specific source lang'''
 
-    edit = editMode()
+    u = Utilities()
 
-    queriesAnswer = checkQueries()
+    edit = u.editMode()
+    queriesAnswer = u.checkQueries()
 
     questions = [
         inquirer.Text("desc", message="Escribe la descripción que quieres añadir"),
