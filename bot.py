@@ -27,13 +27,7 @@ def editMode():
         return edit
 
 
-def massiveDesc():
-    ''' Prepare the execution of setlabeldesc.py
-        Add labels and description to an item given an specific source lang'''
-
-    edit = editMode()
-
-    # Checking filenames
+def checkQueries():
     f = []
 
     for (dirs, dirsNames, files) in os.walk("queries"):
@@ -55,6 +49,17 @@ def massiveDesc():
     queriesAnswer = str(queriesAnswer)
     queriesAnswer = queriesAnswer[13:].strip("'}")
     fileQuery = Path("queries/{}".format(queriesAnswer))
+
+    return queriesAnswer
+
+
+def massiveDesc():
+    ''' Prepare the execution of setlabeldesc.py
+        Add labels and description to an item given an specific source lang'''
+
+    edit = editMode()
+
+    queriesAnswer = checkQueries()
 
     questions = [
         inquirer.Text("desc", message="Escribe la descripción que quieres añadir"),
