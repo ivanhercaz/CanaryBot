@@ -16,7 +16,7 @@ def sparqlQuery(query, site):
             yield wd
 
 
-def fullStopsChecker(query, site):
+def checkDesc(query, editMode):
     esCount = 0
     enCount = 0
 
@@ -44,12 +44,9 @@ def fullStopsChecker(query, site):
 
 
 if __name__ == "__main__":
-    site = pywikibot.Site("wikidata", "wikidata")
     rqFile = "fullStopsDescriptions.rq"
     with open("queries/" + rqFile, "r") as queryFile:
         query = queryFile.read()
-
-    print("This script will run the query ({}) in {}".format(rqFile, site))
 
     print("Do you want to run the script? y[es] or n[o] ")
     key = repr(readchar.readkey())
@@ -57,7 +54,15 @@ if __name__ == "__main__":
 
     if key == "y":
         print("Starting script...")
-        fullStopsChecker(query, site)
+
+        '''
+        TO-DO: make the loop to decide if the user wants to run the script with
+                or without edits (test mode/edit mode)
+        '''
+
+        edit = False
+
+        checkDesc(query, edit)
     elif key == "n":
         print("Stopping script...")
         sys.exit()
