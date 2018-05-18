@@ -48,7 +48,6 @@ def checkQueries():
     queriesAnswer = inquirer.prompt(queries)
     queriesAnswer = str(queriesAnswer)
     queriesAnswer = queriesAnswer[13:].strip("'}")
-    fileQuery = Path("queries/{}".format(queriesAnswer))
 
     return queriesAnswer
 
