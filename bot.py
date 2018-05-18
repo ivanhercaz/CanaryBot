@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-import colorama as c
-import datetime, sys, os, inquirer, os
 import setlabeldesc as sld
 import setlabeldescalias as slda
+import fullstopschecker as fsc
+
+import colorama as c
+
+import datetime, sys, os, inquirer, os
 from pathlib import Path
+
 # Pywikibot is executed in each script
 
 cR = c.Style.RESET_ALL
@@ -89,6 +93,21 @@ def setLabelDescAlias():
 
 def removeFullStop():
     print("Preparing the script!")
+
+    edit = editMode()
+
+    rqFile = "fullStopsDescriptions.rq"
+
+    try:
+        print("\nSe ejecutará la consulta {}".format(rqFile))
+
+        with open("queries/" + rqFile, "r") as queryFile:
+            query = queryFile.read()
+
+        fsc.checkDesc(query, edit)
+    except FileNotFoundError:
+        print("\nLa consulta {} no existe".format(queriesAnswer))
+        print(u"No existe ese archivo. Créalo o introduce otro nombre.")
 
 
 if __name__ == '__main__':
