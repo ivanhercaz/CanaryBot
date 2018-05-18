@@ -2,6 +2,7 @@
 ###############
 /core
 /apicache-py2
+/apicache-py3
 *.pyc
 *.ctrl
 user-config.py
