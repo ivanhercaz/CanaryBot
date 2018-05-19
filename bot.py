@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import setlabeldesc as sld
-import setlabeldescalias as slda
+# import setlabeldescalias as slda
 import fullstopschecker as fsc
 
 import colorama as c
