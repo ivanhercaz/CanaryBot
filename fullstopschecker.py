@@ -6,6 +6,23 @@ from pywikibot import pagegenerators as pg
 site = pywikibot.Site("wikidata", "wikidata")
 
 
+def editItem(item, replacement):
+    print("Edit mode not ready!")
+    print("Decision: ")
+
+    key = repr(readchar.readkey())
+    key = key.replace("'", "")
+
+    while key is "e" or key is not "q":
+        if key == "y":
+            print("yes")
+        elif key == "q":
+            print("no")
+        else:
+            print("wrong key!")
+    # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+
+
 def sparqlQuery(query, site):
 
     generator = pg.WikidataSPARQLPageGenerator(query, site=site)
@@ -32,7 +49,10 @@ def checkDesc(query, editMode):
                             replacement = re.sub("\\.$", "", item.descriptions["en"])
                             pywikibot.logging.output("* Replacement:\t" + replacement)
                             logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-                            # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+
+                            editItem(itemPage, replacement)
+
+                            enCount += 1
                         else:
                             pass
                     elif item.descriptions["es"] is not "":
@@ -41,7 +61,10 @@ def checkDesc(query, editMode):
                             replacement = re.sub("\\.$", "", item.descriptions["es"])
                             pywikibot.logging.output("* Replacement:\t" + replacement)
                             logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-                            # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+
+                            editItem(itemPage, replacement)
+
+                            esCount += 1
                         else:
                             pass
                 else:
