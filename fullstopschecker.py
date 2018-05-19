@@ -24,23 +24,35 @@ def checkDesc(query, editMode):
         itemPage = pywikibot.ItemPage(site, str(item).lstrip("[[wikidata:").rstrip("]]"))
         descriptions = item.descriptions
         for key in item.descriptions:
-            if item.descriptions["en"].endswith(".") is True:
-                pywikibot.logging.output("* Description:\t" + item.descriptions["en"])
-                replacement = re.sub("\.$", "", item.descriptions[key])
-                pywikibot.logging.output("* Replacement:\t" + replacement)
-                # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+            try:
+                if key == "es" or key == "en":
+                    if item.descriptions["en"] is not "":
+                        if item.descriptions["en"].endswith(".") is True:
+                            pywikibot.logging.output("* Description:\t" + item.descriptions["en"])
+                            replacement = re.sub("\\.$", "", item.descriptions["en"])
+                            pywikibot.logging.output("* Replacement:\t" + replacement)
+                            logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+                            # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+                        else:
+                            pass
+                    elif item.descriptions["es"] is not "":
+                        if item.descriptions["es"].endswith(".") is True:
+                            pywikibot.logging.output("* Description:\t" + item.descriptions["es"])
+                            replacement = re.sub("\\.$", "", item.descriptions["es"])
+                            pywikibot.logging.output("* Replacement:\t" + replacement)
+                            logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+                            # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+                        else:
+                            pass
+                else:
+                    pass
+            except KeyError:
+                pywikibot.logging.output("* KeyError:\t" + str(item) + key)
+                logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-            elif item.descriptions["es"].endswith(".") is True:
-                pywikibot.logging.output("* Description:\t" + item.descriptions["es"])
-                replacement = re.sub("\.$", "", item.descriptions[key])
-                pywikibot.logging.output("* Replacement:\t" + replacement)
-                # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
-
-            else:
-                print("No en-es desc")
-
+    count = esCount + enCount
     print("Descriptions fixed: " + str(count))
-    logging.basicConfig(filename='logs/itemsDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+    logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
 
 if __name__ == "__main__":
