@@ -1,26 +1,38 @@
 # -*- coding: utf-8 -*-
 
-import pywikibot, re, datetime, logging, readchar, sys
+import pywikibot, re, datetime, logging, sys, inquirer
 from pywikibot import pagegenerators as pg
 
 site = pywikibot.Site("wikidata", "wikidata")
 
 
-def editItem(item, replacement):
+def editItem(item, key, replacement):
     print("Edit mode not ready!")
     print("Decision: ")
 
-    key = repr(readchar.readkey())
-    key = key.replace("'", "")
+    questions = [
+        inquirer.List('actions',
+            message="What do you want to do?",
+            choices=['Remove full stop', 'Add description to checklist', 'Skip description', 'Quit'],
+        ),
+    ]
 
-    while key is "e" or key is not "q":
-        if key == "y":
-            print("yes")
-        elif key == "q":
-            print("no")
-        else:
-            print("wrong key!")
-    # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+    answers = inquirer.prompt(questions)
+
+    if answers["actions"] == "Remove full stop":
+        print("TO-DO")
+        # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+    elif answers["actions"] == "Add description to checklist":
+        print("TO-DO")
+        # write a method to add the description with all its details in a CSV to review later
+    elif answers["actions"] == "Skip description":
+        print("{} ({}-desc) skipped\n".format(str(item).lstrip("[[wikidata:").rstrip("]]"), key))
+        pass
+    elif answers["actions"] == "Quit":
+        print("Stopping bot...")
+        sys.exit()
+    else:
+        print("Something goes wrong...")
 
 
 def sparqlQuery(query, site):
@@ -50,7 +62,7 @@ def checkDesc(query, editMode):
                             pywikibot.logging.output("* Replacement:\t" + replacement)
                             logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-                            editItem(itemPage, replacement)
+                            editItem(itemPage, key, replacement)
 
                             enCount += 1
                         else:
@@ -83,11 +95,14 @@ if __name__ == "__main__":
     with open("queries/" + rqFile, "r") as queryFile:
         query = queryFile.read()
 
-    print("Do you want to run the script? y[es] or n[o] ")
-    key = repr(readchar.readkey())
-    key = key.replace("'", "")
+    question = [
+        inquirer.Confirm("confirmation",
+            message="Do you want to run the script?")
+    ]
 
-    if key == "y":
+    answer = inquirer.prompt(question)
+
+    if answer["confirmation"] is True:
         print("Starting script...")
 
         '''
@@ -98,7 +113,7 @@ if __name__ == "__main__":
         edit = False
 
         checkDesc(query, edit)
-    elif key == "n":
+    elif answer["confirmation"] is False:
         print("Stopping script...")
         sys.exit()
     else:
