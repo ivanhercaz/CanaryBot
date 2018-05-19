@@ -97,7 +97,9 @@ def setLabelDescAlias():
 def removeFullStop():
     print("Preparing the script!")
 
-    edit = editMode()
+    u = Utilities()
+
+    edit = u.editMode()
 
     rqFile = "fullStopsDescriptions.rq"
 
