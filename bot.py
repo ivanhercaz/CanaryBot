@@ -86,8 +86,8 @@ def massiveDesc():
 
         sld.setLabel(query, desc, lang, sourceLang, edit)
     except FileNotFoundError:
-        print("\nLa consulta {} no existe".format(queriesAnswer))
-        print(u"No existe ese archivo. Créalo o introduce otro nombre.")
+        print("\nThe query {} does not exist".format(queriesAnswer))
+        print(u"\nThis file does not exist Create it or enter another name.")
 
 
 def setLabelDescAlias():

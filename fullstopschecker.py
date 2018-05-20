@@ -6,7 +6,7 @@ from pywikibot import pagegenerators as pg
 site = pywikibot.Site("wikidata", "wikidata")
 
 
-def editItem(item, key, replacement):
+def editDesc(item, key, replacement):
     print("Edit mode not ready!")
     print("Decision: ")
 
@@ -46,8 +46,10 @@ def sparqlQuery(query, site):
 
 
 def checkDesc(query, editMode):
-    esCount = 0
-    enCount = 0
+    count = {
+        "es": 0,
+        "en": 0,
+    }
 
     for item in sparqlQuery(query, site):
         itemPage = pywikibot.ItemPage(site, str(item).lstrip("[[wikidata:").rstrip("]]"))
@@ -55,30 +57,20 @@ def checkDesc(query, editMode):
         for key in item.descriptions:
             try:
                 if key == "es" or key == "en":
-                    if item.descriptions["en"] is not "":
-                        if item.descriptions["en"].endswith(".") is True:
-                            pywikibot.logging.output("* Description:\t" + item.descriptions["en"])
-                            replacement = re.sub("\\.$", "", item.descriptions["en"])
+                    if item.descriptions[key] is not "":
+                        if item.descriptions[key].endswith(".") is True:
+                            pywikibot.logging.output("* Description:\t" + item.descriptions[key])
+                            replacement = re.sub("\\.$", "", item.descriptions[key])
                             pywikibot.logging.output("* Replacement:\t" + replacement)
                             logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-                            editItem(itemPage, key, replacement)
+                            editDesc(itemPage, key, replacement)
 
-                            enCount += 1
+                            count[key] += 1
                         else:
                             pass
-                    elif item.descriptions["es"] is not "":
-                        if item.descriptions["es"].endswith(".") is True:
-                            pywikibot.logging.output("* Description:\t" + item.descriptions["es"])
-                            replacement = re.sub("\\.$", "", item.descriptions["es"])
-                            pywikibot.logging.output("* Replacement:\t" + replacement)
-                            logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-
-                            editItem(itemPage, replacement)
-
-                            esCount += 1
-                        else:
-                            pass
+                    else:
+                        pass
                 else:
                     pass
             except KeyError:
