@@ -3,6 +3,7 @@
 import pywikibot, re, datetime, logging, sys, inquirer
 import colorama as c
 from pywikibot import pagegenerators as pg
+import bot
 
 site = pywikibot.Site("wikidata", "wikidata")
 cR = c.Style.RESET_ALL
@@ -51,6 +52,8 @@ def sparqlQuery(query, site):
 
 
 def checkDesc(query, editMode):
+    # It is necessary to build the process in which the script edit if
+    # the editMode is True
     edit = True
     lang = {
         "es": c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "es-desc" + cR,
@@ -118,14 +121,11 @@ if __name__ == "__main__":
     if answer["confirmation"] is True:
         print("Starting script...\n")
 
-        '''
-        TO-DO: make the loop to decide if the user wants to run the script with
-                or without edits (test mode/edit mode)
-        '''
+        u = bot.Utilities()
 
-        edit = False
+        editMode = u.editMode()
 
-        checkDesc(query, edit)
+        checkDesc(query, editMode)
     elif answer["confirmation"] is False:
         print("Stopping script...")
         sys.exit()
