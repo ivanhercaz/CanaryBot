@@ -30,7 +30,9 @@ def editDesc(item, key, replacement):
         pass
     elif answers["actions"] == "Quit":
         print("Stopping bot...")
-        sys.exit()
+        edit = False
+
+        return edit
     else:
         print("Something goes wrong...")
 
@@ -44,43 +46,50 @@ def sparqlQuery(query, site):
             wd.get(get_redirect=True)
             yield wd
 
-
 def checkDesc(query, editMode):
+    edit = True
     count = {
         "es": 0,
         "en": 0,
     }
 
     for item in sparqlQuery(query, site):
-        itemPage = pywikibot.ItemPage(site, str(item).lstrip("[[wikidata:").rstrip("]]"))
-        descriptions = item.descriptions
-        for key in item.descriptions:
-            try:
-                if key == "es" or key == "en":
-                    if item.descriptions[key] is not "":
-                        if item.descriptions[key].endswith(".") is True:
-                            pywikibot.logging.output("* Description:\t" + item.descriptions[key])
-                            replacement = re.sub("\\.$", "", item.descriptions[key])
-                            pywikibot.logging.output("* Replacement:\t" + replacement)
-                            logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+        if edit is not True:
+            break
+        else:
+            itemPage = pywikibot.ItemPage(site, str(item).lstrip("[[wikidata:").rstrip("]]"))
+            descriptions = item.descriptions
+            for key in item.descriptions:
+                try:
+                    if key == "es" or key == "en":
+                        if item.descriptions[key] is not "":
+                            if item.descriptions[key].endswith(".") is True:
+                                pywikibot.logging.output("* Description:\t" + item.descriptions[key])
+                                replacement = re.sub("\\.$", "", item.descriptions[key])
+                                pywikibot.logging.output("* Replacement:\t" + replacement)
+                                logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-                            editDesc(itemPage, key, replacement)
+                                edit = editDesc(itemPage, key, replacement)
 
-                            count[key] += 1
+                                count[key] += 1
+
+                            else:
+                                pass
                         else:
                             pass
                     else:
                         pass
-                else:
-                    pass
-            except KeyError:
-                pywikibot.logging.output("* KeyError:\t" + str(item) + key)
-                logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+                except KeyError:
+                    pywikibot.logging.output("* KeyError:\t" + str(item) + key)
+                    logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-    count = esCount + enCount
-    print("Descriptions fixed: " + str(count))
+    resultCount = sum(count.values())
+    print("Descriptions fixed: " + str(resultCount))
+    print("Descriptions fixed by lang: " + str(count))
+
     logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
+    sys.exit()
 
 if __name__ == "__main__":
     rqFile = "fullStopsDescriptions.rq"
