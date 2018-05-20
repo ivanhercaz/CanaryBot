@@ -6,7 +6,7 @@ from pywikibot import pagegenerators as pg
 site = pywikibot.Site("wikidata", "wikidata")
 
 
-def editDesc(item, key, replacement):
+def editDesc(item, key, replacement, count):
     print("Edit mode not ready!")
     print("Decision: ")
 
@@ -21,6 +21,8 @@ def editDesc(item, key, replacement):
 
     if answers["actions"] == "Remove full stop":
         print("TO-DO")
+        count[key] += 1
+        
         # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
     elif answers["actions"] == "Add description to checklist":
         print("TO-DO")
@@ -54,7 +56,7 @@ def checkDesc(query, editMode):
     }
 
     for item in sparqlQuery(query, site):
-        if edit is not True:
+        if edit is False:
             break
         else:
             itemPage = pywikibot.ItemPage(site, str(item).lstrip("[[wikidata:").rstrip("]]"))
@@ -69,10 +71,9 @@ def checkDesc(query, editMode):
                                 pywikibot.logging.output("* Replacement:\t" + replacement)
                                 logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-                                edit = editDesc(itemPage, key, replacement)
+                                edit = editDesc(itemPage, key, replacement, count)
 
-                                count[key] += 1
-
+                                print(edit)
                             else:
                                 pass
                         else:
