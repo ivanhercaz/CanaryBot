@@ -3,10 +3,12 @@
 # made by Edoderoo for Wikidata. You can check the original source code here:
 # https://www.wikidata.org/wiki/User:Edoderoobot/labels-indonesian-item..py
 # Now I am working on this script to make more powerful and useful for different cases
-
-import log
-import pywikibot
 from pywikibot import pagegenerators as pg
+
+import pywikibot
+
+# Local modules
+import log
 
 # Global variables
 scriptName = "setlabeldesc"

@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
-
-import pywikibot, re, datetime, logging, sys, inquirer
-import colorama as c
 from pywikibot import pagegenerators as pg
+
+import colorama as c
+import datetime
+import inquirer
+import logging
+import pywikibot
+import re
+import sys
+
+# Local modules
 import bot
 
 site = pywikibot.Site("wikidata", "wikidata")

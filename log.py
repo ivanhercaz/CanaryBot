@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-import datetime, inquirer, logging, os
+import datetime
+import inquirer
+import logging
+import os
 
 
 def update(info, fullNameLog, dateTime):

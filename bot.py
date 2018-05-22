@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+from pathlib import Path
+
+import colorama as c
+import datetime
+import inquirer
+import os
+import sys
+
+# Local modules
 import setlabeldesc as sld
 # import setlabeldescalias as slda
 import fullstopschecker as fsc
-
-import colorama as c
-
-import datetime, sys, os, inquirer, os
-from pathlib import Path
-
-# Pywikibot is executed in each script
 
 cR = c.Style.RESET_ALL
 
