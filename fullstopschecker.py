@@ -20,7 +20,7 @@ cR = c.Style.RESET_ALL
 TODO = c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "TO-DO" + cR
 
 
-def editDesc(item, key, description, replacement, count):
+def editDesc(item, key, description, replacement, count, editMode):
     questions = [
         inquirer.List('actions',
             message="What do you want to do?",
@@ -33,7 +33,14 @@ def editDesc(item, key, description, replacement, count):
     if answers["actions"] == "Remove full stop":
         print(TODO)
         count[key] += 1
-        # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+        try:
+            if editMode == True:
+                print("being developed... edit mode")
+                # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+            else:
+                print("being developed... test edit mode")
+        except Exception as e:
+            print(e)
     elif answers["actions"] == "Add description to checklist":
         print(TODO)
         # write a method to add the description with all its details in a CSV to review later
@@ -42,11 +49,27 @@ def editDesc(item, key, description, replacement, count):
         textEditor = TextEditor()
         # if the description has other error, the operator can edit it directly from the terminal
         # peding to do, it is just a test
-        edit = textEditor.edit(description)
+        newDescription = textEditor.edit(description)
 
         # diff to check that everything is correct
-        if edit and description != edit:
-            pywikibot.showDiff(description, edit)
+        if newDescription and description != newDescription:
+            pywikibot.showDiff(description, newDescription)
+
+            question = [
+                inquirer.Confirm("confirmation",
+                    message="Are you sure you want to make this change?")
+            ]
+
+            answer = inquirer.prompt(question)
+
+            if answer["confirmation"] is True:
+                print(TODO)
+                print("Description changes\n")
+            else:
+                print(TODO)
+                print("No changes were made.\n")
+        else:
+            print("No changes were made.")
 
     elif answers["actions"] == "Skip description":
         print("{} ({}-desc) skipped\n".format(str(item).lstrip("[[wikidata:").rstrip("]]"), key))
@@ -112,7 +135,7 @@ def checkDesc(query, editMode):
 
                                 logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-                                edit = editDesc(itemPage, key, description, replacement, count)
+                                edit = editDesc(itemPage, key, description, replacement, count, editMode)
                             else:
                                 pass
                         else:
@@ -120,7 +143,7 @@ def checkDesc(query, editMode):
                     else:
                         pass
                 except KeyError:
-                    pywikibot.logging.output("* KeyError:\t" + str(item) + key)
+                    pywikibot.logging.output("* KeyError:\t{} {}-desc".format(str(item) + key))
                     logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
     resultCount = sum(count.values())
