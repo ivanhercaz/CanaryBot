@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pywikibot import pagegenerators as pg
+from pywikibot.editor import TextEditor
 
 import colorama as c
 import datetime
@@ -19,11 +20,11 @@ cR = c.Style.RESET_ALL
 TODO = c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "TO-DO" + cR
 
 
-def editDesc(item, key, replacement, count):
+def editDesc(item, key, description, replacement, count):
     questions = [
         inquirer.List('actions',
             message="What do you want to do?",
-            choices=['Remove full stop', 'Add description to checklist', 'Skip description', 'Quit'],
+            choices=['Remove full stop', 'Add description to checklist', 'Edit description', 'Skip description', 'Quit'],
         ),
     ]
 
@@ -36,6 +37,20 @@ def editDesc(item, key, replacement, count):
     elif answers["actions"] == "Add description to checklist":
         print(TODO)
         # write a method to add the description with all its details in a CSV to review later
+    elif answers["actions"] == "Edit description":
+        print(TODO)
+        textEditor = TextEditor()
+        # if the description has other error, the operator can edit it directly from the terminal
+        # peding to do, it is just a test
+        edit = textEditor.edit(description)
+
+        # diff to check that everything is correct
+        if edit and description != edit:
+            pywikibot.showDiff(description, edit)
+            changes = pywikibot.input("What did you change?")
+            comment = i18n.twtranslate(self.site, 'editarticle-edit',
+                                       {'description': changes})
+
     elif answers["actions"] == "Skip description":
         print("{} ({}-desc) skipped\n".format(str(item).lstrip("[[wikidata:").rstrip("]]"), key))
         pass
@@ -85,6 +100,7 @@ def checkDesc(query, editMode):
                     if key == "es" or key == "en" or key == "pl":
                         if item.descriptions[key] is not "":
                             if item.descriptions[key].endswith(".") is True:
+                                description = item.descriptions[key]
                                 replacement = re.sub("\\.$", "", item.descriptions[key])
 
                                 redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
@@ -95,7 +111,7 @@ def checkDesc(query, editMode):
 
                                 logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-                                edit = editDesc(itemPage, key, replacement, count)
+                                edit = editDesc(itemPage, key, description, replacement, count)
                             else:
                                 pass
                         else:
