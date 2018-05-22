@@ -78,7 +78,11 @@ def checkDesc(query, editMode):
         "es": c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "es-desc" + cR,
         "en": c.Back.BLUE + c.Fore.WHITE + c.Style.BRIGHT + "en-desc" + cR,
         "pl": c.Back.WHITE + c.Fore.RED + c.Style.BRIGHT + "pl-desc" + cR,
-        "replacement": c.Style.BRIGHT + "Replacement" + cR
+    }
+    misc = {
+        "replace": c.Style.BRIGHT + "Replacement" + cR,
+        "-": c.Fore.RED + "-" + cR,
+        "+": c.Fore.GREEN + "+" + cR
     }
     count = {
         "es": 0,
@@ -103,8 +107,8 @@ def checkDesc(query, editMode):
                                 redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
                                 item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
 
-                                pywikibot.logging.output("* " + lang[key] + ":\t" + item.descriptions[key])
-                                pywikibot.logging.output("* " + lang["replacement"] + ":\t" + replacement + "\n")
+                                pywikibot.logging.output(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
+                                pywikibot.logging.output(" {} {}:\t{}\n".format(misc["+"], misc["replace"], replacement))
 
                                 logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
