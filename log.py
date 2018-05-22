@@ -2,6 +2,7 @@
 import datetime
 import inquirer
 import logging
+import pywikibot
 import os
 
 
@@ -29,14 +30,12 @@ def update(info, fullNameLog, dateTime):
     logging.basicConfig(
         filename=fullNameLog,
         level=logging.INFO,
-        format=u"%(asctime)s » %(message)s",
+        format=u"%(asctime)s\t%(message)s",
         datefmt="%d/%m/%Y %I:%M:%S %p"
     )
 
     # Updating log
     logging.info(info)
-
-    print(dateTime + u" » " + info)
 
     return fullNameLog, dateTime
 
@@ -58,7 +57,7 @@ def check(info, script):
     now = datetime.datetime.now()
     nowFormat = now.strftime("%Y-%m-%d %H:%M")
 
-    fullNameLog = logDir + nowFormat + "-" + script + ".log"
+    fullNameLog = logDir + nowFormat + "-" + script + ".csv"
 
     # If "logs" exists, just update the log
     if os.path.exists(logDir):
