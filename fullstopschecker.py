@@ -63,8 +63,11 @@ def editDesc(item, key, description, replacement, count, editMode):
             answer = inquirer.prompt(question)
 
             if answer["confirmation"] is True:
-                print(TODO)
-                print("Description changes\n")
+                if editMode is True:
+                    print(TODO)
+                    print("Description changed\n")
+                else:
+                    print("The change hasn't been made (test mode).")
             else:
                 print(TODO)
                 print("No changes were made.\n")
