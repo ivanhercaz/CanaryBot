@@ -65,11 +65,13 @@ def checkDesc(query, editMode):
     lang = {
         "es": c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "es-desc" + cR,
         "en": c.Back.BLUE + c.Fore.WHITE + c.Style.BRIGHT + "en-desc" + cR,
+        "pl": c.Back.WHITE + c.Fore.RED + c.Style.BRIGHT + "pl-desc" + cR,
         "replacement": c.Style.BRIGHT + "Replacement" + cR
     }
     count = {
         "es": 0,
         "en": 0,
+        "pl": 0
     }
 
     for item in sparqlQuery(query, site):
@@ -80,7 +82,7 @@ def checkDesc(query, editMode):
             descriptions = item.descriptions
             for key in item.descriptions:
                 try:
-                    if key == "es" or key == "en":
+                    if key == "es" or key == "en" or key == "pl":
                         if item.descriptions[key] is not "":
                             if item.descriptions[key].endswith(".") is True:
                                 replacement = re.sub("\\.$", "", item.descriptions[key])
