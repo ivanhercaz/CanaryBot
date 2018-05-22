@@ -45,6 +45,8 @@ def setLogName():
 
     return script
 def editDesc(item, key, description, replacement, count, editMode, logName):
+    item = str(item).lstrip("[[wikidata:").rstrip("]]")
+
     questions = [
         inquirer.List('actions',
             message="What do you want to do?",
@@ -148,11 +150,6 @@ def checkDesc(query, editMode):
                                 redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
                                 item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
 
-                                #pywikibot.logging.output(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
-                                #pywikibot.logging.output(" {} {}:\t{}\n".format(misc["+"], misc["replace"], replacement))
-
-                                # logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-
                                 edit = editDesc(itemPage, key, description, replacement, count, editMode, logName)
                             else:
                                 pass
@@ -160,15 +157,28 @@ def checkDesc(query, editMode):
                             pass
                     else:
                         pass
-                except KeyError:
-                    pywikibot.logging.output("* KeyError:\t{} {}-desc".format(str(item) + key))
-                    logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+                except KeyError as e:
+                    info = u"{}\t{}-desc\tKeyError: {}".format(str(item), key, e)
+                    print(info)
+
+                    log.check(info, logName)
 
     resultCount = sum(count.values())
-    print("Descriptions fixed: " + str(resultCount))
-    print("Descriptions fixed by lang: " + str(count))
+    fixed = "Descriptions fixed:\t{}".format(str(resultCount))
+    fixedByLang = "Descriptions fixed by lang:\t{}".format(str(count))
 
-    logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+    if edit is False:
+        info = "Interruption of the script by the operator.\n{}\n{}".format(
+            fixed, fixedByLang
+        )
+        print(info)
+    else:
+        info = "Task completed!\n{}\n{}".format(
+            fixed, fixedByLang
+        )
+        print(info)
+
+    log.check(info, logName)
 
     sys.exit()
 
