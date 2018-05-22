@@ -47,9 +47,6 @@ def editDesc(item, key, description, replacement, count):
         # diff to check that everything is correct
         if edit and description != edit:
             pywikibot.showDiff(description, edit)
-            changes = pywikibot.input("What did you change?")
-            comment = i18n.twtranslate(self.site, 'editarticle-edit',
-                                       {'description': changes})
 
     elif answers["actions"] == "Skip description":
         print("{} ({}-desc) skipped\n".format(str(item).lstrip("[[wikidata:").rstrip("]]"), key))
