@@ -12,8 +12,10 @@ import sys
 
 # Local modules
 import bot
+import log
 
 site = pywikibot.Site("wikidata", "wikidata")
+scriptName = "fullStopsChecker"
 cR = c.Style.RESET_ALL
 
 # Just a help to have clear what it is pending yet.
@@ -35,8 +37,14 @@ count = {
     "pl": 0
 }
 
+def setLogName():
+    if editMode == True:
+        script = scriptName
+    else:
+        script = scriptName + "-test"
 
-def editDesc(item, key, description, replacement, count, editMode):
+    return script
+def editDesc(item, key, description, replacement, count, editMode, logName):
     questions = [
         inquirer.List('actions',
             message="What do you want to do?",
@@ -51,10 +59,15 @@ def editDesc(item, key, description, replacement, count, editMode):
         count[key] += 1
         try:
             if editMode == True:
-                print("being developed... edit mode")
+                info = "being developed... edit mode"
+                log.check(info, logName)
                 # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
             else:
-                print("being developed... test edit mode")
+                info = u"{}\t{}\tfull stop removed from".format(item, lang[key])
+                print(info)
+                info = u"{}\t{}-desc\tfull stop removed from".format(item, key)
+                log.check(info, logName)
+
         except Exception as e:
             print(e)
     elif answers["actions"] == "Add description to checklist":
@@ -116,6 +129,8 @@ def checkDesc(query, editMode):
     # the editMode is True
     edit = True
 
+    logName = setLogName()
+
     for item in sparqlQuery(query, site):
         if edit is False:
             break
@@ -133,12 +148,12 @@ def checkDesc(query, editMode):
                                 redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
                                 item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
 
-                                pywikibot.logging.output(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
-                                pywikibot.logging.output(" {} {}:\t{}\n".format(misc["+"], misc["replace"], replacement))
+                                #pywikibot.logging.output(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
+                                #pywikibot.logging.output(" {} {}:\t{}\n".format(misc["+"], misc["replace"], replacement))
 
-                                logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+                                # logging.basicConfig(filename='logs/itemDescFullStop.log', level=logging.INFO, format='* %(asctime)s » %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
-                                edit = editDesc(itemPage, key, description, replacement, count, editMode)
+                                edit = editDesc(itemPage, key, description, replacement, count, editMode, logName)
                             else:
                                 pass
                         else:
