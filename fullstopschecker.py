@@ -19,6 +19,22 @@ cR = c.Style.RESET_ALL
 # Just a help to have clear what it is pending yet.
 TODO = c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "TO-DO" + cR
 
+lang = {
+    "es": c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "es-desc" + cR,
+    "en": c.Back.BLUE + c.Fore.WHITE + c.Style.BRIGHT + "en-desc" + cR,
+    "pl": c.Back.WHITE + c.Fore.RED + c.Style.BRIGHT + "pl-desc" + cR,
+}
+misc = {
+    "replace": c.Style.BRIGHT + "Replacement" + cR,
+    "-": c.Fore.RED + "-" + cR,
+    "+": c.Fore.GREEN + "+" + cR
+}
+count = {
+    "es": 0,
+    "en": 0,
+    "pl": 0
+}
+
 
 def editDesc(item, key, description, replacement, count, editMode):
     questions = [
@@ -87,7 +103,6 @@ def editDesc(item, key, description, replacement, count, editMode):
 
 
 def sparqlQuery(query, site):
-
     generator = pg.WikidataSPARQLPageGenerator(query, site=site)
 
     for wd in generator:
@@ -100,21 +115,6 @@ def checkDesc(query, editMode):
     # It is necessary to build the process in which the script edit if
     # the editMode is True
     edit = True
-    lang = {
-        "es": c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "es-desc" + cR,
-        "en": c.Back.BLUE + c.Fore.WHITE + c.Style.BRIGHT + "en-desc" + cR,
-        "pl": c.Back.WHITE + c.Fore.RED + c.Style.BRIGHT + "pl-desc" + cR,
-    }
-    misc = {
-        "replace": c.Style.BRIGHT + "Replacement" + cR,
-        "-": c.Fore.RED + "-" + cR,
-        "+": c.Fore.GREEN + "+" + cR
-    }
-    count = {
-        "es": 0,
-        "en": 0,
-        "pl": 0
-    }
 
     for item in sparqlQuery(query, site):
         if edit is False:
