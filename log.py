@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import csv
 import datetime
 import inquirer
 import logging
@@ -6,7 +7,7 @@ import pywikibot
 import os
 
 
-def update(info, fullNameLog, dateTime):
+def update(info, fullNameLog, dateTime, mode="log"):
     """Update the log file.
 
     Parameters
@@ -26,21 +27,30 @@ def update(info, fullNameLog, dateTime):
     """
     print("\nUpdating log...\n")
 
-    # Configuration
-    logging.basicConfig(
-        filename=fullNameLog,
-        level=logging.INFO,
-        format=u"%(asctime)s\t%(message)s",
-        datefmt="%d/%m/%Y %I:%M:%S %p"
-    )
+    if mode == "log":
+        # Configuration
+        logging.basicConfig(
+            filename=fullNameLog,
+            level=logging.INFO,
+            format=u"%(asctime)s\t%(message)s",
+            datefmt="%d/%m/%Y %I:%M:%S %p"
+        )
 
-    # Updating log
-    logging.info(info)
+        # Updating log
+        logging.info(info)
+    if mode == "csv":
+        with open(fullNameLog, "a") as csvFile:
+            print(info)
+            row = info["item"], info["key"], info["msg"]
+            writer = csv.writer(csvFile, lineterminator="\n")
+            writer.writerow(row)
+    else:
+        print("Something goes wrong with the mode of the log")
 
     return fullNameLog, dateTime
 
 
-def check(info, script):
+def check(info, script, mode="log"):
     """Check if the directory is available or if it has to be created,
         also assign a date and time (now) in which the actions has been logged.
 
@@ -61,9 +71,9 @@ def check(info, script):
 
     # If "logs" exists, just update the log
     if os.path.exists(logDir):
-        update(info, fullNameLog, nowFormat)
+        update(info, fullNameLog, nowFormat, mode)
     # If not, create it and then update it
     else:
         os.makedirs(logDir)
         print(logDir + " has been created")
-        update(info, fullNameLog, nowFormat)
+        update(info, fullNameLog, nowFormat, mode)

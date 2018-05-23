@@ -65,20 +65,24 @@ def editDesc(item, key, description, replacement, count, editMode, logName):
                     item, lang[key]
                 )
                 print(info)
-                info = u"{}\t{}-desc\tfull stop removed".format(
-                    item, key
-                )
+                info = {
+                    "item": item,
+                    "key": key + "-desc",
+                    "msg": "full stop removed"
+                }
                 # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
-                log.check(info, logName)
+                log.check(info, logName, mode="csv")
             else:
                 info = u"{}\t{}\tfull stop removed (non edit made, test mode)".format(
                     item, lang[key]
                 )
                 print(info)
-                info = u"{}\t{}-desc\tfull stop removed (non edit made, test mode)".format(
-                    item, key
-                )
-                log.check(info, logName)
+                info = {
+                    "item": item,
+                    "key": key + "-desc",
+                    "msg": "full stop removed (non edit made, test mode)"
+                }
+                log.check(info, logName, mode="csv")
 
         except Exception as e:
             print(e)
@@ -111,32 +115,42 @@ def editDesc(item, key, description, replacement, count, editMode, logName):
                         item, lang[key]
                     )
                     print(info)
-                    info = u"{}\t{}\tfull stop removed and other errors fixed".format(
-                        item, key
-                    )
+                    info = {
+                        "item": item,
+                        "key": key + "-desc",
+                        "msg": "full stop removed and other errors fixed"
+                    }
                     # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
-                    log.check(info, logName)
+                    log.check(info, logName, mode="csv")
                 else:
                     print(TODO)
                     info = u"{}\t{}\tfull stop removed and other errors fixed (non edit made, test mode)".format(
                         item, lang[key]
                     )
                     print(info)
-                    info = u"{}\t{}\tfull stop removed and other errors fixed (non edit made, test mode)".format(
+                    info = u"'{}'\t'{}-desc'\t'full stop removed and other errors fixed (non edit made, test mode)'".format(
                         item, key
                     )
+                    # this combination WORKS!
+                    info = {
+                        "item": item,
+                        "key": key + "-desc",
+                        "msg": "full stop removed and other errors fixed (non edit made, test mode)"
+                    }
                     # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
-                    log.check(info, logName)
+                    log.check(info, logName, mode="csv")
             else:
                 print(TODO)
                 info = u"{}\t{}The change hasn't been made by decision of the operator.".format(
                     item, lang[key]
                 )
                 print(info)
-                info = u"{}\t{}The change hasn't been made by decision of the operator.".format(
-                    item, key
-                )
-                log.check(info, logName)
+                info = {
+                    "item": item,
+                    "key": key + "-desc",
+                    "msg": "The change hasn't been made by decision of the operator"
+                }
+                log.check(info, logName, mode="csv")
         else:
             print("No changes were made.")
 
@@ -145,10 +159,12 @@ def editDesc(item, key, description, replacement, count, editMode, logName):
             item, lang[key]
         )
         print(info)
-        info = u"{}\t{}\tskipped.".format(
-            item, lang[key]
-        )
-        log.check(info, logName)
+        info = {
+            "item": item,
+            "key": key + "-desc",
+            "msg": "skipped"
+        }
+        log.check(info, logName, mode="csv")
     elif answers["actions"] == "Quit":
         print("Stopping bot...")
         edit = False
@@ -201,25 +217,41 @@ def checkDesc(query, editMode):
                 except KeyError as e:
                     info = u"{}\t{}-desc\tKeyError: {}".format(str(item), key, e)
                     print(info)
+                    info = {
+                        "item": item,
+                        "key": key + "-desc",
+                        "msg": e
+                    }
 
-                    log.check(info, logName)
+                    log.check(info, logName, mode="csv")
 
     resultCount = sum(count.values())
     fixed = "Descriptions fixed:\t{}".format(str(resultCount))
     fixedByLang = "Descriptions fixed by lang:\t{}".format(str(count))
+    item = str(item).lstrip("[[wikidata:").rstrip("]]")
 
     if edit is False:
         info = "Interruption of the script by the operator.\n{}\n{}".format(
             fixed, fixedByLang
         )
         print(info)
+        info = {
+            "item": item,
+            "key": key + "-desc",
+            "msg": "Interruption of the script by the operator.\n" + fixed + "\n" + fixedByLang
+        }
     else:
         info = "Task completed!\n{}\n{}".format(
             fixed, fixedByLang
         )
         print(info)
+        info = {
+            "item": item,
+            "key": key + "-desc",
+            "msg": "Task completed!\n" + fixed + "\n" + fixedByLang
+        }
 
-    log.check(info, logName)
+    log.check(info, logName, mode="csv")
 
     sys.exit()
 
