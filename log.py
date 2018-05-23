@@ -24,7 +24,7 @@ def update(info, fullNameLog, dateTime):
         fullNameLog and dateTime variables.
 
     """
-    print("\nUpdating log...")
+    print("\nUpdating log...\n")
 
     # Configuration
     logging.basicConfig(

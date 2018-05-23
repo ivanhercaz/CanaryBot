@@ -60,18 +60,29 @@ def editDesc(item, key, description, replacement, count, editMode, logName):
         print(TODO)
         count[key] += 1
         try:
-            if editMode == True:
-                info = "being developed... edit mode"
-                log.check(info, logName)
-                # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
-            else:
-                info = u"{}\t{}\tfull stop removed from".format(item, lang[key])
+            if editMode is True:
+                info = u"{}\t{}\tfull stop removed".format(
+                    item, lang[key]
+                )
                 print(info)
-                info = u"{}\t{}-desc\tfull stop removed from".format(item, key)
+                info = u"{}\t{}-desc\tfull stop removed".format(
+                    item, key
+                )
+                # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+                log.check(info, logName)
+            else:
+                info = u"{}\t{}\tfull stop removed (non edit made, test mode)".format(
+                    item, lang[key]
+                )
+                print(info)
+                info = u"{}\t{}-desc\tfull stop removed (non edit made, test mode)".format(
+                    item, key
+                )
                 log.check(info, logName)
 
         except Exception as e:
             print(e)
+            log.check(e, logName)
     elif answers["actions"] == "Add description to checklist":
         print(TODO)
         # write a method to add the description with all its details in a CSV to review later
@@ -96,18 +107,48 @@ def editDesc(item, key, description, replacement, count, editMode, logName):
             if answer["confirmation"] is True:
                 if editMode is True:
                     print(TODO)
-                    print("Description changed\n")
+                    info = u"{}\t{}\tfull stop removed and other errors fixed".format(
+                        item, lang[key]
+                    )
+                    print(info)
+                    info = u"{}\t{}\tfull stop removed and other errors fixed".format(
+                        item, key
+                    )
+                    # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+                    log.check(info, logName)
                 else:
-                    print("The change hasn't been made (test mode).")
+                    print(TODO)
+                    info = u"{}\t{}\tfull stop removed and other errors fixed (non edit made, test mode)".format(
+                        item, lang[key]
+                    )
+                    print(info)
+                    info = u"{}\t{}\tfull stop removed and other errors fixed (non edit made, test mode)".format(
+                        item, key
+                    )
+                    # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+                    log.check(info, logName)
             else:
                 print(TODO)
-                print("No changes were made.\n")
+                info = u"{}\t{}The change hasn't been made by decision of the operator.".format(
+                    item, lang[key]
+                )
+                print(info)
+                info = u"{}\t{}The change hasn't been made by decision of the operator.".format(
+                    item, key
+                )
+                log.check(info, logName)
         else:
             print("No changes were made.")
 
     elif answers["actions"] == "Skip description":
-        print("{} ({}-desc) skipped\n".format(str(item).lstrip("[[wikidata:").rstrip("]]"), key))
-        pass
+        info = u"{}\t{}\tskipped.".format(
+            item, lang[key]
+        )
+        print(info)
+        info = u"{}\t{}\tskipped.".format(
+            item, lang[key]
+        )
+        log.check(info, logName)
     elif answers["actions"] == "Quit":
         print("Stopping bot...")
         edit = False
