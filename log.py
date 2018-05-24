@@ -10,7 +10,6 @@ import pywikibot
 import os
 import shlex
 import subprocess
-from subprocess import Popen, PIPE
 import sys
 
 cR = c.Style.RESET_ALL
