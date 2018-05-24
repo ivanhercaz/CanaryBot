@@ -1,10 +1,18 @@
 #!/bin/bash
 
-# Simple script to generate the HTML file to view the logs
+# Create an HTML file in which the content is a CSV viewer to check the CSV logs
+# made with the log.py module during the wiki tasks performed by CanaryBot.
+# It works with "CSV to HTML Table", developed by Derek Eder (The MIT License).
+
+# Arguments passed
+# CSV file
 FULLNAMELOG=$1
+# CSV viewer
 HTMLFILE=$2
+# Name of the script-task made
 TASK=$3
 
+# Create the file and write the content
 cat > $HTMLFILE << _EOF_
 <!DOCTYPE html>
 <html lang="en">
