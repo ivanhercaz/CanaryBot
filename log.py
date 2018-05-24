@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from pathlib import Path
+
 import csv
 import datetime
 import inquirer
@@ -71,9 +73,21 @@ def check(info, script, mode="log"):
 
     # If "logs" exists, just update the log
     if os.path.exists(logDir):
-        update(info, fullNameLog, nowFormat, mode)
-    # If not, create it and then update it
+        pass
     else:
         os.makedirs(logDir)
         print(logDir + " has been created")
+
+    if Path(fullNameLog).is_file():
         update(info, fullNameLog, nowFormat, mode)
+    # If not, create it and then update it
+    else:
+        if mode == "csv":
+            with open(fullNameLog, "a") as csvFile:
+                print(info)
+                row = ["item", "subject", "action"]
+                writer = csv.writer(csvFile, lineterminator="\n")
+                writer.writerow(row)
+            update(info, fullNameLog, nowFormat, mode)
+        else:
+            update(info, fullNameLog, nowFormat, mode)
