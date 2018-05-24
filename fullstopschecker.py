@@ -258,7 +258,7 @@ def checkDesc(query, editMode):
             "msg": "Task completed!\n" + fixed + "\n" + fixedByLang
         }
 
-    log.check(info, logName, mode="csv")
+    log.check(info, logName, mode="csv", generateHTML=True)
 
     sys.exit()
 
