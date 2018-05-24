@@ -1,15 +1,34 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
 
+import colorama as c
 import csv
 import datetime
 import inquirer
 import logging
 import pywikibot
 import os
+import shlex
+import subprocess
+from subprocess import Popen, PIPE
+import sys
+
+cR = c.Style.RESET_ALL
 
 
-def update(info, fullNameLog, dateTime, mode="log"):
+def createHTML(fullNameLog):
+    print("Runnning {}createhtml.sh{}...".format(c.Style.BRIGHT, cR))
+    htmlFile = fullNameLog.rstrip(".csv") + ".html"
+    command = "./createhtml.sh " + fullNameLog + " " + htmlFile
+    print(" An HTML file has been created as a viewer of the CSV file: {}{}{}".format(
+        fullNameLog, c.Style.BRIGHT, htmlFile, cR)
+    )
+
+    subprocess.call(shlex.split(command))
+    sys.exit()
+
+
+def update(info, fullNameLog, dateTime, generateHTML, mode="log"):
     """Update the log file.
 
     Parameters
@@ -35,24 +54,30 @@ def update(info, fullNameLog, dateTime, mode="log"):
             filename=fullNameLog,
             level=logging.INFO,
             format=u"%(asctime)s\t%(message)s",
-            datefmt="%d/%m/%Y %I:%M:%S %p"
+            datefmt="%d/%m/%Y_%I:%M:%S %p"
         )
 
         # Updating log
         logging.info(info)
     if mode == "csv":
         with open(fullNameLog, "a") as csvFile:
-            print(info)
             row = info["item"], info["key"], info["msg"]
             writer = csv.writer(csvFile, lineterminator="\n")
             writer.writerow(row)
     else:
         print("Something goes wrong with the mode of the log")
 
+    if generateHTML is False:
+        pass
+    elif generateHTML is True:
+        createHTML(fullNameLog)
+    else:
+        print("Something goes wrong!")
+
     return fullNameLog, dateTime
 
 
-def check(info, script, mode="log"):
+def check(info, script, mode="log", generateHTML=False):
     """Check if the directory is available or if it has to be created,
         also assign a date and time (now) in which the actions has been logged.
 
@@ -67,7 +92,7 @@ def check(info, script, mode="log"):
     # Format of the fullname log
     logDir = "logs/"
     now = datetime.datetime.now()
-    nowFormat = now.strftime("%Y-%m-%d %H:%M")
+    nowFormat = now.strftime("%Y-%m-%d_%H:%M")
 
     fullNameLog = logDir + nowFormat + "-" + script + ".csv"
 
@@ -79,15 +104,14 @@ def check(info, script, mode="log"):
         print(logDir + " has been created")
 
     if Path(fullNameLog).is_file():
-        update(info, fullNameLog, nowFormat, mode)
+        update(info, fullNameLog, nowFormat, generateHTML, mode)
     # If not, create it and then update it
     else:
         if mode == "csv":
             with open(fullNameLog, "a") as csvFile:
-                print(info)
                 row = ["item", "subject", "action"]
                 writer = csv.writer(csvFile, lineterminator="\n")
                 writer.writerow(row)
-            update(info, fullNameLog, nowFormat, mode)
+            update(info, fullNameLog, nowFormat, generateHTML, mode)
         else:
-            update(info, fullNameLog, nowFormat, mode)
+            update(info, fullNameLog, nowFormat, generateHTML, mode)
