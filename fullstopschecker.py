@@ -37,13 +37,16 @@ count = {
     "pl": 0
 }
 
+
 def setLogName():
-    if editMode == True:
+    if editMode is True:
         script = scriptName
     else:
         script = scriptName + "-test"
 
     return script
+
+
 def editDesc(item, key, description, replacement, count, editMode, logName):
     item = str(item).lstrip("[[wikidata:").rstrip("]]")
 
@@ -128,14 +131,14 @@ def editDesc(item, key, description, replacement, count, editMode, logName):
                         item, lang[key]
                     )
                     print(info)
-                    info = u"'{}'\t'{}-desc'\t'full stop removed and other errors fixed (non edit made, test mode)'".format(
+                    info = u"'{}'\t'{}-desc'\t'full stop removed and other errors fixed (test mode)'".format(
                         item, key
                     )
                     # this combination WORKS!
                     info = {
                         "item": item,
                         "key": key + "-desc",
-                        "msg": "full stop removed and other errors fixed (non edit made, test mode)"
+                        "msg": "full stop removed and other errors fixed (test mode)"
                     }
                     # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
                     log.check(info, logName, mode="csv")
@@ -207,6 +210,9 @@ def checkDesc(query, editMode):
                                 redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
                                 item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
 
+                                print(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
+                                print(" {} {}:\t{}\n".format(misc["+"], misc["replace"], replacement))
+
                                 edit = editDesc(itemPage, key, description, replacement, count, editMode, logName)
                             else:
                                 pass
@@ -215,7 +221,8 @@ def checkDesc(query, editMode):
                     else:
                         pass
                 except KeyError as e:
-                    info = u"{}\t{}-desc\tKeyError: {}".format(str(item), key, e)
+                    item = str(item).lstrip("[[wikidata:").rstrip("]]")
+                    info = u"{}\t{}-desc\tKeyError: {}".format(item, key, e)
                     print(info)
                     info = {
                         "item": item,
@@ -226,8 +233,8 @@ def checkDesc(query, editMode):
                     log.check(info, logName, mode="csv")
 
     resultCount = sum(count.values())
-    fixed = "Descriptions fixed:\t{}".format(str(resultCount))
-    fixedByLang = "Descriptions fixed by lang:\t{}".format(str(count))
+    fixed = "Descriptions fixed: {}. ".format(str(resultCount))
+    fixedByLang = "Descriptions fixed by lang: {}".format(str(count))
     item = str(item).lstrip("[[wikidata:").rstrip("]]")
 
     if edit is False:
@@ -238,7 +245,7 @@ def checkDesc(query, editMode):
         info = {
             "item": item,
             "key": key + "-desc",
-            "msg": "Interruption of the script by the operator.\n" + fixed + "\n" + fixedByLang
+            "msg": "Interruption of the script by the operator. " + fixed + fixedByLang
         }
     else:
         info = "Task completed!\n{}\n{}".format(
