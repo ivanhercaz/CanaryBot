@@ -16,19 +16,19 @@ import sys
 cR = c.Style.RESET_ALL
 
 
-def createHTML(fullNameLog):
+def createHTML(script, fullNameLog):
     print("Runnning {}createhtml.sh{}...".format(c.Style.BRIGHT, cR))
     htmlFile = fullNameLog.rstrip(".csv") + ".html"
-    command = "./createhtml.sh " + fullNameLog + " " + htmlFile
+    command = "./createhtml.sh " + fullNameLog.lstrip("logs/") + " " + htmlFile + " " + script
     print(" An HTML file has been created as a viewer of the CSV file: {}{}{}".format(
-        fullNameLog, c.Style.BRIGHT, htmlFile, cR)
+        c.Style.BRIGHT, htmlFile, cR)
     )
 
     subprocess.call(shlex.split(command))
     sys.exit()
 
 
-def update(info, fullNameLog, dateTime, generateHTML, mode="log"):
+def update(info, script, fullNameLog, dateTime, generateHTML, mode="log"):
     """Update the log file.
 
     Parameters
@@ -70,7 +70,7 @@ def update(info, fullNameLog, dateTime, generateHTML, mode="log"):
     if generateHTML is False:
         pass
     elif generateHTML is True:
-        createHTML(fullNameLog)
+        createHTML(script, fullNameLog)
     else:
         print("Something goes wrong!")
 
@@ -104,7 +104,7 @@ def check(info, script, mode="log", generateHTML=False):
         print(logDir + " has been created")
 
     if Path(fullNameLog).is_file():
-        update(info, fullNameLog, nowFormat, generateHTML, mode)
+        update(info, script, fullNameLog, nowFormat, generateHTML, mode)
     # If not, create it and then update it
     else:
         if mode == "csv":
@@ -112,6 +112,6 @@ def check(info, script, mode="log", generateHTML=False):
                 row = ["item", "subject", "action"]
                 writer = csv.writer(csvFile, lineterminator="\n")
                 writer.writerow(row)
-            update(info, fullNameLog, nowFormat, generateHTML, mode)
+            update(info, script, fullNameLog, nowFormat, generateHTML, mode)
         else:
-            update(info, fullNameLog, nowFormat, generateHTML, mode)
+            update(info, script, fullNameLog, nowFormat, generateHTML, mode)
