@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>List of logs - CanaryBot</title>
+    <meta name="author" content="Iván Hernández Cazorla">
+
+    <!-- IMPORTANT NOTE: change the external CDNs to Wikimedia CDN -->
+    <!-- Bootstrap core CSS -->
+    <link href="logs/css/bootstrap.min.css" rel="stylesheet">
+    <link href="logs/css/dataTables.bootstrap.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-fluid">
+
+      <h2>Log list</h2>
+      <p>Ordered by most recent</p>
+      <div id="logs"></div>
+
+    </div><!-- /.container -->
+
+    <footer class='footer'>
+      <div class='container-fluid'>
+      </div>
+    </footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="logs/js/jquery.min.js"></script>
+<script type="text/javascript" src="logs/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="logs/js/jquery.csv.min.js"></script>
+<script>
+   $(function(){
+      $('#logs').load("logs/logs.html");
+   });
+</script>
+</body>
+</html>

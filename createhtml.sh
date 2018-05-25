@@ -22,7 +22,7 @@ cat > $HTMLFILE << _EOF_
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CSV to HTML Table</title>
+    <title>Log of $TASK</title>
     <meta name="author" content="Iván Hernández Cazorla">
 
     <!-- IMPORTANT NOTE: change the external CDNs to Wikimedia CDN -->
