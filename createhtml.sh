@@ -15,7 +15,7 @@ LOGLIST="logs/logs.html"
 TASK=$3
 
 # Create the file and write the content
-cat > $HTMLFILE << _EOF_
+cat > logs/$HTMLFILE << _EOF_
 <!DOCTYPE html>
 <html lang="en">
   <head>
