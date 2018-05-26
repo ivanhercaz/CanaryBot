@@ -16,6 +16,7 @@ import log
 
 site = pywikibot.Site("wikidata", "wikidata")
 scriptName = "fullStopsChecker"
+
 cR = c.Style.RESET_ALL
 
 lang = {
@@ -34,6 +35,9 @@ count = {
     "pl": 0
 }
 
+now = datetime.datetime.now()
+timestamp = str(now.strftime("%Y-%m-%d %H:%M"))
+
 
 def setLogName():
     if editMode is True:
@@ -45,7 +49,6 @@ def setLogName():
 
 
 def editDesc(itemPage, key, description, replacement, count, editMode, editGroup, logName):
-    now = datetime.datetime.now()
     summary = {
         "removed": "removing end full stop/period of {}-desc".format(key),
         "edited": "removing end full stop/period and fixing {}-desc".format(key)
@@ -60,7 +63,6 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
             )
         }
 
-    print(itemPage)
     item = str(itemPage).lstrip("[[wikidata:").rstrip("]]")
 
     questions = [
@@ -76,12 +78,12 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
         count[key] += 1
         try:
             if editMode is True:
-                info = u"{}\t{}\tfull stop removed".format(
-                    item, lang[key]
+                info = u"{}{}{}{}\t{}\tfull stop removed".format(
+                    c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
                 )
                 print(info)
                 info = {
-                    "time": str(now.strftime("%Y-%m-%d %H:%M")),
+                    "time": timestamp,
                     "item": item,
                     "key": key + "-desc",
                     "msg": "full stop removed"
@@ -89,12 +91,12 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
                 itemPage.editDescriptions(replacement, summary=summary["removed"])
                 log.check(info, logName, mode="csv")
             else:
-                info = u"{}\t{}\tfull stop removed (non edit made, test mode)".format(
-                    item, lang[key]
+                info = u"{}{}{}{}\t{}\tfull stop removed (non edit made, test mode)".format(
+                    c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
                 )
                 print(info)
                 info = {
-                    "time": now.strftime("%Y-%m-%d %H:%M"),
+                    "time": timestamp,
                     "item": item,
                     "key": key + "-desc",
                     "msg": "full stop removed (non edit made, test mode)"
@@ -106,7 +108,7 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
             log.check(e, logName, mode="csv")
     elif answers["actions"] == "Add description to checklist":
         info = {
-            "time": now.strftime("%Y-%m-%d %H:%M"),
+            "time": timestamp,
             "item": item,
             "key": key + "-desc",
             "msg": description
@@ -131,12 +133,12 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
 
             if answer["confirmation"] is True:
                 if editMode is True:
-                    info = u"{}\t{}\tfull stop removed and other errors fixed".format(
-                        item, lang[key]
+                    info = u"{}{}{}{}\t{}\tfull stop removed and other errors fixed".format(
+                        c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
                     )
                     print(info)
                     info = {
-                        "time": now.strftime("%Y-%m-%d %H:%M"),
+                        "time": timestamp,
                         "item": item,
                         "key": key + "-desc",
                         "msg": "full stop removed and other errors fixed"
@@ -144,27 +146,24 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
                     itemPage.editDescriptions(replacement, summary=summary["edited"])
                     log.check(info, logName, mode="csv")
                 else:
-                    info = u"{}\t{}\tfull stop removed and other errors fixed (non edit made, test mode)".format(
-                        item, lang[key]
+                    info = u"{}{}{}{}\t{}\tfull stop removed and other errors fixed (test mode)".format(
+                        c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
                     )
                     print(info)
-                    info = u"'{}'\t'{}-desc'\t'full stop removed and other errors fixed (test mode)'".format(
-                        item, key
-                    )
                     info = {
-                        "time": now.strftime("%Y-%m-%d %H:%M"),
+                        "time": timestamp,
                         "item": item,
                         "key": key + "-desc",
                         "msg": "full stop removed and other errors fixed (test mode)"
                     }
                     log.check(info, logName, mode="csv")
             else:
-                info = u"{}\t{}The change hasn't been made by decision of the operator.".format(
-                    item, lang[key]
+                info = u"{}{}{}{}\t{}The change hasn't been made by decision of the operator.".format(
+                    c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
                 )
                 print(info)
                 info = {
-                    "time": now.strftime("%Y-%m-%d %H:%M"),
+                    "time": timestamp,
                     "item": item,
                     "key": key + "-desc",
                     "msg": "The change hasn't been made by decision of the operator"
@@ -174,11 +173,12 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
             print("No changes were made.")
 
     elif answers["actions"] == "Skip description":
-        info = u"{}\t{}\tskipped.".format(
-            item, lang[key]
+        info = u"{}{}{}{}\t{}\tskipped.".format(
+            c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
         )
         print(info)
         info = {
+            "time": timestamp,
             "item": item,
             "key": key + "-desc",
             "msg": "skipped"
@@ -229,6 +229,9 @@ def checkDesc(query, editMode):
                                 redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
                                 item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
 
+                                print("\n   {}{}{}{}".format(
+                                    c.Fore.WHITE, c.Style.BRIGHT, str(item).lstrip("[[wikidata:").rstrip("]]"), cR)
+                                )
                                 print(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
                                 print(" {} {}:\t{}\n".format(misc["+"], misc["replace"], replacement))
 
@@ -262,7 +265,7 @@ def checkDesc(query, editMode):
         )
         print(info)
         info = {
-            "time": now.strftime("%Y-%m-%d %H:%M"),
+            "time": timestamp,
             "item": item,
             "key": key + "-desc",
             "msg": "Interruption of the script by the operator. " + fixed + fixedByLang
