@@ -83,7 +83,7 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                     "key": key + "-desc",
                     "msg": "full stop removed"
                 }
-                # itemPage.editDescriptions(replacement, summary=summary["removed"])
+                itemPage.editDescriptions(replacement, summary=summary["removed"])
                 log.check(info, logName, mode="csv")
             else:
                 info = u"{}\t{}\tfull stop removed (non edit made, test mode)".format(
@@ -135,7 +135,7 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                         "key": key + "-desc",
                         "msg": "full stop removed and other errors fixed"
                     }
-                    # itemPage.editDescriptions(replacement, summary="summary["edited"])
+                    itemPage.editDescriptions(replacement, summary=summary["edited"])
                     log.check(info, logName, mode="csv")
                 else:
                     info = u"{}\t{}\tfull stop removed and other errors fixed (non edit made, test mode)".format(
