@@ -44,7 +44,7 @@ def setLogName():
     return script
 
 
-def editDesc(item, key, description, replacement, count, editMode, editGroup, logName):
+def editDesc(itemPage, key, description, replacement, count, editMode, editGroup, logName):
     summary = {
         "removed": "removing end full stop/period of {}-desc".format(key),
         "edited": "removing end full stop/period and fixing {}-desc".format(key)
@@ -59,7 +59,7 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
             )
         }
 
-    item = str(item).lstrip("[[wikidata:").rstrip("]]")
+    item = str(itemPage).lstrip("[[wikidata:").rstrip("]]")
 
     questions = [
         inquirer.List('actions',
