@@ -122,7 +122,7 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
             "time": timestamp,
             "item": item,
             "key": key + "-desc",
-            "msg": description
+            "msg": "Added to checklist: " + description
         }
         log.check(info, logName, mode="csv")
         log.check(info, "descriptionCheckList", mode="csv")
