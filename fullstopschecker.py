@@ -45,6 +45,7 @@ def setLogName():
 
 
 def editDesc(itemPage, key, description, replacement, count, editMode, editGroup, logName):
+    now = datetime.datetime.now()
     summary = {
         "removed": "removing end full stop/period of {}-desc".format(key),
         "edited": "removing end full stop/period and fixing {}-desc".format(key)
@@ -59,6 +60,7 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
             )
         }
 
+    print(itemPage)
     item = str(itemPage).lstrip("[[wikidata:").rstrip("]]")
 
     questions = [
@@ -79,6 +81,7 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
                 )
                 print(info)
                 info = {
+                    "time": str(now.strftime("%Y-%m-%d %H:%M")),
                     "item": item,
                     "key": key + "-desc",
                     "msg": "full stop removed"
@@ -91,6 +94,7 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
                 )
                 print(info)
                 info = {
+                    "time": now.strftime("%Y-%m-%d %H:%M"),
                     "item": item,
                     "key": key + "-desc",
                     "msg": "full stop removed (non edit made, test mode)"
@@ -102,6 +106,7 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
             log.check(e, logName, mode="csv")
     elif answers["actions"] == "Add description to checklist":
         info = {
+            "time": now.strftime("%Y-%m-%d %H:%M"),
             "item": item,
             "key": key + "-desc",
             "msg": description
@@ -131,6 +136,7 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
                     )
                     print(info)
                     info = {
+                        "time": now.strftime("%Y-%m-%d %H:%M"),
                         "item": item,
                         "key": key + "-desc",
                         "msg": "full stop removed and other errors fixed"
@@ -146,6 +152,7 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
                         item, key
                     )
                     info = {
+                        "time": now.strftime("%Y-%m-%d %H:%M"),
                         "item": item,
                         "key": key + "-desc",
                         "msg": "full stop removed and other errors fixed (test mode)"
@@ -157,6 +164,7 @@ def editDesc(itemPage, key, description, replacement, count, editMode, editGroup
                 )
                 print(info)
                 info = {
+                    "time": now.strftime("%Y-%m-%d %H:%M"),
                     "item": item,
                     "key": key + "-desc",
                     "msg": "The change hasn't been made by decision of the operator"
@@ -254,6 +262,7 @@ def checkDesc(query, editMode):
         )
         print(info)
         info = {
+            "time": now.strftime("%Y-%m-%d %H:%M"),
             "item": item,
             "key": key + "-desc",
             "msg": "Interruption of the script by the operator. " + fixed + fixedByLang
@@ -264,6 +273,7 @@ def checkDesc(query, editMode):
         )
         print(info)
         info = {
+            "time": now.strftime("%Y-%m-%d %H:%M"),
             "item": item,
             "key": key + "-desc",
             "msg": "Task completed!\n" + fixed + "\n" + fixedByLang

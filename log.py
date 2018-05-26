@@ -92,8 +92,6 @@ def check(info, script, mode="log", generateHTML=False):
     now = datetime.datetime.now()
     nowFormat = now.strftime("%Y-%m-%d")
 
-    info.update({"time": now.strftime("%Y-%m-%d %H:%M")})
-
     fullNameLog = logDir + nowFormat + "-" + script + ".csv"
 
     # If "logs" exists, just update the log
