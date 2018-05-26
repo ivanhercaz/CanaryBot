@@ -110,7 +110,13 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
 
         except Exception as e:
             print(e)
-            log.check(e, logName, mode="csv")
+            info = {
+                "time": timestamp,
+                "item": item,
+                "key": key + "-desc",
+                "msg": e
+            }
+            log.check(info, logName, mode="csv")
     elif answers["actions"] == "Add description to checklist":
         info = {
             "time": timestamp,
@@ -118,6 +124,7 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
             "key": key + "-desc",
             "msg": description
         }
+        log.check(info, logName, mode="csv")
         log.check(info, "descriptionCheckList", mode="csv")
     elif answers["actions"] == "Edit description":
         textEditor = TextEditor()
@@ -137,29 +144,39 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
             answer = inquirer.prompt(question)
 
             if answer["confirmation"] is True:
-                if editMode is True:
-                    info = u"{}{}{}{}\t{}\tfull stop removed and other errors fixed".format(
-                        c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
-                    )
-                    print(info)
+                try:
+                    if editMode is True:
+                        info = u"{}{}{}{}\t{}\tfull stop removed and other errors fixed".format(
+                            c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
+                        )
+                        print(info)
+                        info = {
+                            "time": timestamp,
+                            "item": item,
+                            "key": key + "-desc",
+                            "msg": "full stop removed and other errors fixed"
+                        }
+                        itemPage.editDescriptions(replacement, summary=summary["edited"])
+                        log.check(info, logName, mode="csv")
+                    else:
+                        info = u"{}{}{}{}\t{}\tfull stop removed and other errors fixed (test mode)".format(
+                            c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
+                        )
+                        print(info)
+                        info = {
+                            "time": timestamp,
+                            "item": item,
+                            "key": key + "-desc",
+                            "msg": "full stop removed and other errors fixed (test mode)"
+                        }
+                        log.check(info, logName, mode="csv")
+                except Exception as e:
+                    print(e)
                     info = {
                         "time": timestamp,
                         "item": item,
                         "key": key + "-desc",
-                        "msg": "full stop removed and other errors fixed"
-                    }
-                    itemPage.editDescriptions(replacement, summary=summary["edited"])
-                    log.check(info, logName, mode="csv")
-                else:
-                    info = u"{}{}{}{}\t{}\tfull stop removed and other errors fixed (test mode)".format(
-                        c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
-                    )
-                    print(info)
-                    info = {
-                        "time": timestamp,
-                        "item": item,
-                        "key": key + "-desc",
-                        "msg": "full stop removed and other errors fixed (test mode)"
+                        "msg": e
                     }
                     log.check(info, logName, mode="csv")
             else:
