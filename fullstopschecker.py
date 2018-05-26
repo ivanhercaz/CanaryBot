@@ -23,6 +23,7 @@ lang = {
     "es": c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "es-desc" + cR,
     "en": c.Back.BLUE + c.Fore.WHITE + c.Style.BRIGHT + "en-desc" + cR,
     "pl": c.Back.WHITE + c.Fore.RED + c.Style.BRIGHT + "pl-desc" + cR,
+    "it": c.Back.GREEN + c.Fore.WHITE + c.Style.BRIGHT + "it-desc" + cR
 }
 misc = {
     "replace": c.Style.BRIGHT + "Replacement" + cR,
@@ -32,7 +33,8 @@ misc = {
 count = {
     "es": 0,
     "en": 0,
-    "pl": 0
+    "pl": 0,
+    "it": 0
 }
 
 now = datetime.datetime.now()
@@ -222,7 +224,7 @@ def checkDesc(query, editMode):
             descriptions = item.descriptions
             for key in item.descriptions:
                 try:
-                    if key == "es" or key == "en" or key == "pl":
+                    if key == "es" or key == "en" or key == "pl" or key == "it":
                         if item.descriptions[key] is not "":
                             if item.descriptions[key].endswith(".") is True:
                                 description = item.descriptions[key]
