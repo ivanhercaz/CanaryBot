@@ -74,7 +74,7 @@ cat > $HTMLFILE << _EOF_
     allow_download: true,
     csv_options: {separator: ',', delimiter: '"'},
     datatables_options: {"paging": true},
-    custom_formatting: [[3, format_link]]
+    custom_formatting: [[4, format_link]]
   });
 </script>
 </body>
