@@ -17,8 +17,10 @@ cR = c.Style.RESET_ALL
 
 def createHTML(script, fullNameLog):
     print("Runnning {}createhtml.sh{}...".format(c.Style.BRIGHT, cR))
-    htmlFile = fullNameLog.rstrip(".csv") + ".html"
+    htmlFile = fullNameLog.lstrip("logs/").rstrip(".csv") + ".html"
     command = "./createhtml.sh " + fullNameLog.lstrip("logs/") + " " + htmlFile + " " + script
+    print(command)
+    print(htmlFile)
     print(" An HTML file has been created as a viewer of the CSV file: {}{}{}".format(
         c.Style.BRIGHT, htmlFile, cR)
     )
