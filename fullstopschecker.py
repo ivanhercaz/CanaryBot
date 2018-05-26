@@ -18,9 +18,6 @@ site = pywikibot.Site("wikidata", "wikidata")
 scriptName = "fullStopsChecker"
 cR = c.Style.RESET_ALL
 
-# Just a help to have clear what it is pending yet.
-TODO = c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "TO-DO" + cR
-
 lang = {
     "es": c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "es-desc" + cR,
     "en": c.Back.BLUE + c.Fore.WHITE + c.Style.BRIGHT + "en-desc" + cR,
@@ -74,7 +71,6 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
     answers = inquirer.prompt(questions)
 
     if answers["actions"] == "Remove full stop":
-        print(TODO)
         count[key] += 1
         try:
             if editMode is True:
@@ -103,12 +99,15 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
 
         except Exception as e:
             print(e)
-            log.check(e, logName)
+            log.check(e, logName, mode="csv")
     elif answers["actions"] == "Add description to checklist":
-        print(TODO)
-        # write a method to add the description with all its details in a CSV to review later
+        info = {
+            "item": item,
+            "key": key + "-desc",
+            "msg": description
+        }
+        log.check(info, "descriptionCheckList", mode="csv")
     elif answers["actions"] == "Edit description":
-        print(TODO)
         textEditor = TextEditor()
         # if the description has other error, the operator can edit it directly from the terminal
         # peding to do, it is just a test
@@ -127,7 +126,6 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
 
             if answer["confirmation"] is True:
                 if editMode is True:
-                    print(TODO)
                     info = u"{}\t{}\tfull stop removed and other errors fixed".format(
                         item, lang[key]
                     )
@@ -140,7 +138,6 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                     # itemPage.editDescriptions(replacement, summary="summary["edited"])
                     log.check(info, logName, mode="csv")
                 else:
-                    print(TODO)
                     info = u"{}\t{}\tfull stop removed and other errors fixed (non edit made, test mode)".format(
                         item, lang[key]
                     )
@@ -148,7 +145,6 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                     info = u"'{}'\t'{}-desc'\t'full stop removed and other errors fixed (test mode)'".format(
                         item, key
                     )
-                    # this combination WORKS!
                     info = {
                         "item": item,
                         "key": key + "-desc",
@@ -156,7 +152,6 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                     }
                     log.check(info, logName, mode="csv")
             else:
-                print(TODO)
                 info = u"{}\t{}The change hasn't been made by decision of the operator.".format(
                     item, lang[key]
                 )
@@ -275,6 +270,7 @@ def checkDesc(query, editMode):
         }
 
     log.check(info, logName, mode="csv", generateHTML=True)
+    log.check(info, "descriptionCheckList", mode="csv", generateHTML=True)
 
     sys.exit()
 
