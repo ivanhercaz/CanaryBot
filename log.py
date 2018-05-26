@@ -24,7 +24,6 @@ def createHTML(script, fullNameLog):
     )
 
     subprocess.call(shlex.split(command))
-    sys.exit()
 
 
 def update(info, script, fullNameLog, dateTime, generateHTML, mode="log"):
@@ -60,7 +59,7 @@ def update(info, script, fullNameLog, dateTime, generateHTML, mode="log"):
         logging.info(info)
     if mode == "csv":
         with open(fullNameLog, "a") as csvFile:
-            row = info["item"], info["key"], info["msg"]
+            row = info["time"], info["item"], info["key"], info["msg"]
             writer = csv.writer(csvFile, lineterminator="\n")
             writer.writerow(row)
     else:
@@ -93,6 +92,8 @@ def check(info, script, mode="log", generateHTML=False):
     now = datetime.datetime.now()
     nowFormat = now.strftime("%Y-%m-%d")
 
+    info.update({"time": now.strftime("%Y-%m-%d %H:%M")})
+
     fullNameLog = logDir + nowFormat + "-" + script + ".csv"
 
     # If "logs" exists, just update the log
@@ -108,7 +109,7 @@ def check(info, script, mode="log", generateHTML=False):
     else:
         if mode == "csv":
             with open(fullNameLog, "a") as csvFile:
-                row = ["item", "subject", "action"]
+                row = ["timestamp", "item", "subject", "action"]
                 writer = csv.writer(csvFile, lineterminator="\n")
                 writer.writerow(row)
             update(info, script, fullNameLog, nowFormat, generateHTML, mode)
