@@ -5,6 +5,7 @@ import colorama as c
 import datetime
 import inquirer
 import os
+import random
 import sys
 
 # Local modules
@@ -18,8 +19,24 @@ cR = c.Style.RESET_ALL
 class Utilities:
     ''' Class for useful snippets '''
 
+    def editGroups(self):
+        ''' Method to check if the operator wants to create a set of changes in
+        Edit groups. Check: https://www.wikidata.org/wiki/Wikidata:Edit_groups '''
+
+        question = [
+            inquirer.Confirm("editGroups",
+                message="Do you want to track edits in a set of Edit groups?",
+                )
+        ]
+
+        answer = inquirer.prompt(question)
+
+        if answer["editGroups"] is True:
+            editGroup = "{:x}".format(random.randrange(0, 2**48))
+            return editGroup
+
     def editMode(self):
-        ''' Function to work like an easy and clean way to choose the edition mode,
+        ''' Method to work like an easy and clean way to choose the edition mode,
         otherwhise this could would have in each one '''
 
         editMode = [

@@ -47,7 +47,27 @@ def setLogName():
     return script
 
 
-def editDesc(item, key, description, replacement, count, editMode, logName):
+def editDesc(item, key, description, replacement, count, editMode, editGroup, logName):
+    summary = {
+        "removed": "removing end full stop/period of the {}-desc".format(key),
+        "edited": "removing end full stop/period and fixes of the {}-desc".format(key)
+    }
+    if editGroup is not None:
+        summary = {
+            "removed": "{} ([[:toollabs:editgroups/b/CB/{}|details]])".format(
+                summary["removed"], editGroup
+            ),
+            "edited": "{} ([[:toollabs:editgroups/b/CB/{}|details]])".format(
+                summary["edited"], editGroup
+            )
+        }
+        print("The summary will be: ")
+        print(summary["removed"])
+        print(summary["edited"])
+    else:
+        print(summary["removed"])
+        print(summary["edited"])
+
     item = str(item).lstrip("[[wikidata:").rstrip("]]")
 
     questions = [
@@ -187,6 +207,9 @@ def sparqlQuery(query, site):
 
 
 def checkDesc(query, editMode):
+
+    editGroup = u.editGroups()
+
     # It is necessary to build the process in which the script edit if
     # the editMode is True
     edit = True
@@ -213,7 +236,7 @@ def checkDesc(query, editMode):
                                 print(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
                                 print(" {} {}:\t{}\n".format(misc["+"], misc["replace"], replacement))
 
-                                edit = editDesc(itemPage, key, description, replacement, count, editMode, logName)
+                                edit = editDesc(itemPage, key, description, replacement, count, editMode, editGroup, logName)
                             else:
                                 pass
                         else:
