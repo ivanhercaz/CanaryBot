@@ -48,7 +48,12 @@ def setLogName():
     return script
 
 
-def editDesc(itemPage, key, description, replacement, count, editMode, editGroup, logName):
+def editDesc(itemPage, key, description, newDescription, count, editMode, editGroup, logName):
+    replacement = {
+        "descriptions": {
+            key: newDescription
+        }
+    }
     summary = {
         "removed": "removing end full stop/period of {}-desc".format(key),
         "edited": "removing end full stop/period and fixing {}-desc".format(key)
@@ -216,7 +221,6 @@ def checkDesc(query, editMode):
         if edit is False:
             break
         else:
-            itemPage = pywikibot.ItemPage(site, str(item).lstrip("[[wikidata:").rstrip("]]"))
             descriptions = item.descriptions
             for key in item.descriptions:
                 try:
@@ -224,7 +228,7 @@ def checkDesc(query, editMode):
                         if item.descriptions[key] is not "":
                             if item.descriptions[key].endswith(".") is True:
                                 description = item.descriptions[key]
-                                replacement = re.sub("\\.$", "", item.descriptions[key])
+                                newDescription = re.sub("\\.$", "", item.descriptions[key])
 
                                 redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
                                 item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
@@ -233,9 +237,9 @@ def checkDesc(query, editMode):
                                     c.Fore.WHITE, c.Style.BRIGHT, str(item).lstrip("[[wikidata:").rstrip("]]"), cR)
                                 )
                                 print(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
-                                print(" {} {}:\t{}\n".format(misc["+"], misc["replace"], replacement))
+                                print(" {} {}:\t{}\n".format(misc["+"], misc["replace"], newDescription))
 
-                                edit = editDesc(itemPage, key, description, replacement, count, editMode, editGroup, logName)
+                                edit = editDesc(item, key, description, newDescription, count, editMode, editGroup, logName)
                             else:
                                 pass
                         else:
