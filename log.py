@@ -91,7 +91,7 @@ def check(info, script, mode="log", generateHTML=False):
     # Format of the fullname log
     logDir = "logs/"
     now = datetime.datetime.now()
-    nowFormat = now.strftime("%Y-%m-%d_%H:%M")
+    nowFormat = now.strftime("%Y-%m-%d")
 
     fullNameLog = logDir + nowFormat + "-" + script + ".csv"
 
