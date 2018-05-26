@@ -49,8 +49,8 @@ def setLogName():
 
 def editDesc(item, key, description, replacement, count, editMode, editGroup, logName):
     summary = {
-        "removed": "removing end full stop/period of the {}-desc".format(key),
-        "edited": "removing end full stop/period and fixes of the {}-desc".format(key)
+        "removed": "removing end full stop/period of {}-desc".format(key),
+        "edited": "removing end full stop/period and fixing {}-desc".format(key)
     }
     if editGroup is not None:
         summary = {
@@ -61,12 +61,6 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                 summary["edited"], editGroup
             )
         }
-        print("The summary will be: ")
-        print(summary["removed"])
-        print(summary["edited"])
-    else:
-        print(summary["removed"])
-        print(summary["edited"])
 
     item = str(item).lstrip("[[wikidata:").rstrip("]]")
 
@@ -93,7 +87,7 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                     "key": key + "-desc",
                     "msg": "full stop removed"
                 }
-                # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+                # itemPage.editDescriptions(replacement, summary=summary["removed"])
                 log.check(info, logName, mode="csv")
             else:
                 info = u"{}\t{}\tfull stop removed (non edit made, test mode)".format(
@@ -143,7 +137,7 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                         "key": key + "-desc",
                         "msg": "full stop removed and other errors fixed"
                     }
-                    # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
+                    # itemPage.editDescriptions(replacement, summary="summary["edited"])
                     log.check(info, logName, mode="csv")
                 else:
                     print(TODO)
@@ -160,7 +154,6 @@ def editDesc(item, key, description, replacement, count, editMode, editGroup, lo
                         "key": key + "-desc",
                         "msg": "full stop removed and other errors fixed (test mode)"
                     }
-                    # itemPage.editDescriptions(replacement, summary="removing end full stop/period of the {}-description".format(key))
                     log.check(info, logName, mode="csv")
             else:
                 print(TODO)
