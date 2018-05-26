@@ -50,9 +50,7 @@ def setLogName():
 
 def editDesc(itemPage, key, description, newDescription, count, editMode, editGroup, logName):
     replacement = {
-        "descriptions": {
-            key: newDescription
-        }
+        key: newDescription
     }
     summary = {
         "removed": "removing end full stop/period of {}-desc".format(key),
