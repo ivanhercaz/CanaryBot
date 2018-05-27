@@ -19,6 +19,9 @@ scriptName = "fullStopsChecker"
 
 cR = c.Style.RESET_ALL
 
+now = datetime.datetime.now()
+timestamp = str(now.strftime("%Y-%m-%d %H:%M"))
+
 lang = {
     "es": c.Back.RED + c.Fore.WHITE + c.Style.BRIGHT + "es-desc" + cR,
     "en": c.Back.BLUE + c.Fore.WHITE + c.Style.BRIGHT + "en-desc" + cR,
@@ -37,8 +40,13 @@ count = {
     "it": 0
 }
 
-now = datetime.datetime.now()
-timestamp = str(now.strftime("%Y-%m-%d %H:%M"))
+exceptions = [
+    re.compile(r"\w\.\s?\w\.$"),
+    re.compile(r"\s(J|S)r\.$"),
+    re.compile(r"\sr\.$"),
+    re.compile(r"\sw\.$"),
+    re.compile(r"\sInc\.$")
+]
 
 
 def setLogName():
@@ -239,24 +247,29 @@ def checkDesc(query, editMode):
             break
         else:
             descriptions = item.descriptions
-            for key in item.descriptions:
+            for key in descriptions:
                 try:
                     if key == "es" or key == "en" or key == "pl" or key == "it":
                         if item.descriptions[key] is not "":
                             if item.descriptions[key].endswith(".") is True:
-                                description = item.descriptions[key]
-                                newDescription = re.sub("\\.$", "", item.descriptions[key])
+                                if not any(exception.search(item.descriptions[key]) for exception in exceptions):
+                                    description = item.descriptions[key]
+                                    newDescription = re.sub("\\.$", "", item.descriptions[key])
 
-                                redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
-                                item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
+                                    redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
+                                    item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
 
-                                print("\n   {}{}{}{}".format(
-                                    c.Fore.WHITE, c.Style.BRIGHT, str(item).lstrip("[[wikidata:").rstrip("]]"), cR)
-                                )
-                                print(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
-                                print(" {} {}:\t{}\n".format(misc["+"], misc["replace"], newDescription))
+                                    print("\n   {}{}{}{}".format(
+                                        c.Fore.WHITE, c.Style.BRIGHT, str(item).lstrip("[[wikidata:").rstrip("]]"), cR)
+                                    )
+                                    print(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
+                                    print(" {} {}:\t{}\n".format(misc["+"], misc["replace"], newDescription))
 
-                                edit = editDesc(item, key, description, newDescription, count, editMode, editGroup, logName)
+                                    edit = editDesc(item, key, description, newDescription, count, editMode, editGroup, logName)
+                                else:
+                                    print(item.descriptions[key])
+                                    print("JUMPED!")
+                                    pass
                             else:
                                 pass
                         else:
