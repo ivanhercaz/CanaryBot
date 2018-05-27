@@ -1,9 +1,7 @@
-PREFIX schema: <http://schema.org/>
-
 SELECT ?item ?desc WHERE {
-  ?item wdt:P31 ?is .
+  ?item wdt:P31/wdt:P279 ?is .
   ?item schema:description ?desc .
   FILTER(REGEX(STR(?desc), "\\.$", "i"))
 }
 
-LIMIT 2000
+LIMIT 10000
