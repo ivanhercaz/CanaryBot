@@ -106,8 +106,8 @@ exceptions = [
     re.compile(r"\sr\.$"),
     # regex for: w. (Polish abbreviature for "in YEAR").
     re.compile(r"\sw\.$"),
-    # regex for: Inc. (suffix indicating a corporation).
-    re.compile(r"\sInc\.$")
+    # regex for: Inc. and Co. (suffix indicating a corporation).
+    re.compile(r"\s(Inc|Co)\.$")
 ]
 
 
