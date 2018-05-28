@@ -107,7 +107,7 @@ exceptions = [
     # regex for: w. (Polish abbreviature for "in YEAR").
     re.compile(r"\sw\.$"),
     # regex for: Inc. and Co. (suffix indicating a corporation).
-    re.compile(r"\s(Inc|Co)\.$")
+    re.compile(r"\s(Inc|Co)\.$"),
     # regex for: EE.UU., EE. UU., U.S.A., U. S. A., U.S., U. S.
     re.compile(r"\s(EE\.\s?UU\.|U\.\s?S\.\s?A\.|U\.\s?S\.)$")
 ]
