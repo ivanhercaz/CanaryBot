@@ -441,11 +441,11 @@ def checkDesc(query, editMode):
                                 if not any(exception.search(item.descriptions[key]) for exception in exceptions):
                                     # Setting variables to pass to editDesc()
                                     description = item.descriptions[key]
-                                    newDescription = re.sub("\\.$", "", item.descriptions[key])
+                                    newDescription = re.sub(r"\s?\.$", "", item.descriptions[key])
 
                                     # Show the full stop in red
                                     redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
-                                    item.descriptions[key] = re.sub("\\.$", redFullStop, item.descriptions[key])
+                                    item.descriptions[key] = re.sub(r"\s?\.$", redFullStop, item.descriptions[key])
 
                                     print("\n   {}{}{}{}".format(
                                         c.Fore.WHITE, c.Style.BRIGHT, str(item).lstrip("[[wikidata:").rstrip("]]"), cR)
