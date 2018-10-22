@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
-from pathlib import Path
-
 import colorama as c
 import datetime
 import inquirer
 import os
 import random
-import sys
 
 # Local modules
+import fullstopschecker as fsc
 import setlabeldesc as sld
 # import setlabeldescalias as slda
-import fullstopschecker as fsc
 
 cR = c.Style.RESET_ALL
 

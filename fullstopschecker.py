@@ -25,12 +25,11 @@ a HTML file that works as CSV viewer (the same if a CSV checklist has been creat
 import colorama as c
 import datetime
 import inquirer
-import logging
-import pywikibot
 import re
 import sys
 
 # Pywikibot
+import pywikibot
 from pywikibot import pagegenerators as pg
 from pywikibot.editor import TextEditor
 

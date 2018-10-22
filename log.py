@@ -4,13 +4,10 @@ from pathlib import Path
 import colorama as c
 import csv
 import datetime
-import inquirer
 import logging
-import pywikibot
 import os
 import shlex
 import subprocess
-import sys
 
 cR = c.Style.RESET_ALL
 
