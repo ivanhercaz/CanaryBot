@@ -81,4 +81,4 @@ cat > logs/$HTMLFILE << _EOF_
 </html>
 _EOF_
 
-sed -i "s#<ul>#<ul>\n<li><a href='$HTMLFILE'>$HTMLFILE</a></li>#g" $LOGLIST
+sed -i "s#<ul>#<ul>\n<li><a href='logs\/$HTMLFILE'>$HTMLFILE</a></li>#g" $LOGLIST
