@@ -1,4 +1,5 @@
 import inquirer
+import random
 
 ''' Module  for useful snippets '''
 
