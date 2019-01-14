@@ -18,66 +18,61 @@ TASK=$3
 cat > logs/$HTMLFILE << _EOF_
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Log of $TASK</title>
-    <meta name="author" content="Iván Hernández Cazorla">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Log of $TASK</title>
+        <meta name="author" content="Iván Hernández Cazorla">
 
-    <!-- IMPORTANT NOTE: change the external CDNs to Wikimedia CDN -->
-    <!-- Bootstrap core CSS -->
-    <link href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="container-fluid">
+        <link href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container-fluid">
 
-      <h2>Task: $TASK</h2>
-      <h3>$FULLNAMELOG</h3>
+            <h2>Task: $TASK</h2>
+            <h3>$FULLNAMELOG</h3>
 
-      <div id='table-container'></div>
+            <div id='table-container'></div>
 
-</div><!-- /.container -->
+        </div>
 
-<footer class='footer'>
-  <div class='container-fluid'>
-    <hr>
-    <p class='pull-right'>Thank you very much to <a href='http://derekeder.com'>Derek Eder</a>,
-    creator of <a href='https://github.com/derekeder/csv-to-html-table'>CSV to HTML Table</a>,
-    who released it under <a href="https://github.com/derekeder/csv-to-html-table/blob/master/LICENSE">The MIT License</a></p>
-  </div>
-</footer>
+        <footer class='footer'>
+            <div class='container-fluid'>
+                <hr>
+                <p class='pull-right'>Thank you very much to <a href='http://derekeder.com'>Derek Eder</a>,
+                creator of <a href='https://github.com/derekeder/csv-to-html-table'>CSV to HTML Table</a>,
+                who released it under <a href="https://github.com/derekeder/csv-to-html-table/blob/master/LICENSE">The MIT License</a></p>
+            </div>
+        </footer>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery-csv/0.8.9/jquery.csv.min.js"></script>
-<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap.js"></script>
-<script type="text/javascript" src="js/csv_to_html_table.js"></script>
+        <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery-csv/0.8.9/jquery.csv.min.js"></script>
+        <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap.js"></script>
+        <script type="text/javascript" src="js/csv_to_html_table.js"></script>
 
 
-<script type="text/javascript">
-  function format_link(link){
-    if (link)
-      return "<a href='" + link + "' target='_blank'>" + link + "</a>";
-    else
-      return "";
-  }
+        <script type="text/javascript">
+            function format_link(link){
+                if (link)
+                    return "<a href='" + link + "' target='_blank'>" + link + "</a>";
+                else
+              return "";
+            }
 
-  CsvToHtmlTable.init({
-    csv_path: '$FULLNAMELOG',
-    element: 'table-container',
-    allow_download: true,
-    csv_options: {separator: ',', delimiter: '"'},
-    datatables_options: {"paging": true},
-    custom_formatting: [[4, format_link]]
-  });
-</script>
-</body>
+            CsvToHtmlTable.init({
+                csv_path: '$FULLNAMELOG',
+                element: 'table-container',
+                allow_download: true,
+                csv_options: {separator: ',', delimiter: '"'},
+                datatables_options: {"paging": true},
+                custom_formatting: [[4, format_link]]
+            });
+        </script>
+    </body>
 </html>
 _EOF_
 
