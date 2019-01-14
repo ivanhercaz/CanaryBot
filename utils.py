@@ -1,8 +1,8 @@
 import inquirer
 
-''' Class for useful snippets '''
+''' Module  for useful snippets '''
 
-def editGroups(self):
+def editGroups():
     ''' Method to check if the operator wants to create a set of changes in
     Edit groups. Check: https://www.wikidata.org/wiki/Wikidata:Edit_groups '''
 
@@ -18,7 +18,7 @@ def editGroups(self):
         editGroup = "{:x}".format(random.randrange(0, 2**48))
         return editGroup
 
-def editMode(self):
+def editMode():
     ''' Method to work like an easy and clean way to choose the edition mode,
     otherwhise this could would have in each one '''
 
@@ -35,7 +35,7 @@ def editMode(self):
         edit = True
         return edit
 
-def checkQueries(self):
+def checkQueries():
     f = []
 
     for (dirs, dirsNames, files) in os.walk("queries"):
