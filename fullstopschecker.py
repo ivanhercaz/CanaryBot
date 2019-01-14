@@ -34,8 +34,8 @@ from pywikibot import pagegenerators as pg
 from pywikibot.editor import TextEditor
 
 # Local modules
-import bot
 import log
+import utils as u
 
 # Configuration
 site = pywikibot.Site("wikidata", "wikidata")
@@ -112,7 +112,7 @@ exceptions = [
 ]
 
 
-def setLogName():
+def setLogName(editMode):
     """Simple function to set the name of the log according to the editing mode.
 
     Returns
@@ -418,7 +418,7 @@ def checkDesc(query, editMode):
     edit = True
 
     # To set the log name depending of the editing mode
-    logName = setLogName()
+    logName = setLogName(editMode)
 
     for item in sparqlQuery(query, site):
         # If "edit" is False, stop the script
@@ -542,8 +542,6 @@ if __name__ == "__main__":
 
     if answer["confirmation"] is True:
         print("Starting script...\n")
-
-        u = bot.Utilities()
 
         editMode = u.editMode()
 
