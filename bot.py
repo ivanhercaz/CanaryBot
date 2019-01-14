@@ -6,81 +6,17 @@ import os
 import random
 
 # Local modules
+import utils as u
 import fullstopschecker as fsc
 import setlabeldesc as sld
 # import setlabeldescalias as slda
 
 cR = c.Style.RESET_ALL
 
-
-class Utilities:
-    ''' Class for useful snippets '''
-
-    def editGroups(self):
-        ''' Method to check if the operator wants to create a set of changes in
-        Edit groups. Check: https://www.wikidata.org/wiki/Wikidata:Edit_groups '''
-
-        question = [
-            inquirer.Confirm("editGroups",
-                message="Do you want to track edits in a set of Edit groups?",
-                )
-        ]
-
-        answer = inquirer.prompt(question)
-
-        if answer["editGroups"] is True:
-            editGroup = "{:x}".format(random.randrange(0, 2**48))
-            return editGroup
-
-    def editMode(self):
-        ''' Method to work like an easy and clean way to choose the edition mode,
-        otherwhise this could would have in each one '''
-
-        editMode = [
-            inquirer.List("editMode",
-                message="Elige el modo de edición",
-                choices=["Modo de pruebas", "Modo editar"],
-            ),
-        ]
-
-        answers = inquirer.prompt(editMode)
-
-        if answers["editMode"] == u"Modo editar":
-            edit = True
-            return edit
-
-    def checkQueries(self):
-        f = []
-
-        for (dirs, dirsNames, files) in os.walk("queries"):
-            f.extend(files)
-            for filename in enumerate(files):
-                filenames = filename
-                print(filenames)
-
-        print("Hay {} consultas disponibles.\n".format(len(files)))
-
-        queries = [
-            inquirer.List("queries",
-                message="Qué consulta quieres utilizar?",
-                choices=files
-            ),
-        ]
-
-        queriesAnswer = inquirer.prompt(queries)
-        queriesAnswer = str(queriesAnswer)
-        queriesAnswer = queriesAnswer[13:].strip("'}")
-
-        return queriesAnswer
-
-
-def massiveDesc():
+def massiveDesc(edit):
     ''' Prepare the execution of setlabeldesc.py
         Add labels and description to an item given an specific source lang'''
 
-    u = Utilities()
-
-    edit = u.editMode()
     queriesAnswer = u.checkQueries()
 
     questions = [
@@ -106,16 +42,12 @@ def massiveDesc():
         print(u"\nThis file does not exist Create it or enter another name.")
 
 
-def setLabelDescAlias():
+def setLabelDescAlias(edit):
     print("Preparing the script!")
 
 
-def removeFullStop():
+def removeFullStop(edit):
     print("Preparing the script!")
-
-    u = Utilities()
-
-    edit = u.editMode()
 
     rqFile = "fullStopsDescriptions.rq"
 
@@ -154,6 +86,8 @@ if __name__ == '__main__':
     ]
 
     answers = inquirer.prompt(projects)
+    
+    edit = u.editMode()
 
     if answers["projects"] == "eswiki":
         tasks = {
@@ -189,9 +123,9 @@ if __name__ == '__main__':
         print("Aún no están preparados los scripts")
 
         if answers["wikidata"] == "Descripciones de un idioma a otro":
-            massiveDesc()
+            massiveDesc(edit)
         elif answers["wikidata"] == "Retirar punto y final a las descripciones":
-            removeFullStop()
+            removeFullStop(edit)
         else:
             print("error -:::-")
 
