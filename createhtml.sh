@@ -27,8 +27,8 @@ cat > logs/$HTMLFILE << _EOF_
 
     <!-- IMPORTANT NOTE: change the external CDNs to Wikimedia CDN -->
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <div class="container-fluid">
@@ -52,11 +52,11 @@ cat > logs/$HTMLFILE << _EOF_
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/jquery.csv.min.js"></script>
-<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery-csv/0.8.9/jquery.csv.min.js"></script>
+<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap.js"></script>
 <script type="text/javascript" src="js/csv_to_html_table.js"></script>
 
 
