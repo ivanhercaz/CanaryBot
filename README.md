@@ -4,6 +4,16 @@ CanaryBot works in the Wikimedia projects to help in the maintenance tasks. If y
 
 Now the code is being migrated for an old code, so it requires patience :)
 
+```
+       _;;;       ___   __   _   _   __    ____  _   _
+      /  · >     |     /  \  |\  |  /  \  |    )  \ /    ____   __  _____
+  __ / /   )     |    |____| | \ | |____| |---/    |    |____) |  |   |
+  \__\/___/      |___ |    | |  \| |    | |   \    |    |____) |__|   |
+      | |
+      ^ ^
+  ------------------------------------------------------------------------
+```
+
 ## How-to use it by yourself
 
 If you want to use CanaryBot or one of its scripts, you have to satisfy all the requirements:
