@@ -1,4 +1,6 @@
 LOGS = "logs/logs.html"
+JS = "logs/js"
+CSVTOHTMLTABLE = "csv_to_html_table.js"
 
 .DEFAULT: help
 help:
@@ -22,6 +24,11 @@ prepare-files:
 	echo "</ul>" >> ${LOGS}
 	@echo "\nContent of ${LOGS}"
 	cat ${LOGS}
+	@echo "\nCreating the ${JS} folder"
+	mkdir ${JS}
+	@echo "\nDownloading CSV to HTML Table in the correct locationt (${CSVTOHTMLTABLE})."
+	curl -o ${JS}/${CSVTOHTMLTABLE} https://raw.githubusercontent.com/derekeder/csv-to-html-table/master/js/csv_to_html_table.js
+
 
 install-pyrequirements:
 	@echo "\nInstalling all Python requirements from requirements.txt."
