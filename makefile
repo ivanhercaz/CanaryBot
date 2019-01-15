@@ -14,7 +14,7 @@ help:
 	@echo "\nmake clean-pyc"
 	@echo "	clean all Python compiled bytecode files."
 
-all: prepare-files prepare-files install-pyrequirements clean-pyc
+all: prepare-files prepare-files prepare-duplicatedcsv install-pyrequirements clean-pyc
 	@echo "\nCanaryBot has been prepared and configured."
 
 prepare-files:
@@ -29,6 +29,9 @@ prepare-files:
 	@echo "\nDownloading CSV to HTML Table in the correct locationt (${CSVTOHTMLTABLE})."
 	curl -o ${JS}/${CSVTOHTMLTABLE} https://raw.githubusercontent.com/derekeder/csv-to-html-table/master/js/csv_to_html_table.js
 
+prepare-duplicatedcsv:
+	@echo "\nWritting a CSV with the header 'id' and 'duplicated'"
+	echo "id, sentence" >> duplicatedFullStopsDesc.csv
 
 install-pyrequirements:
 	@echo "\nInstalling all Python requirements from requirements.txt."
