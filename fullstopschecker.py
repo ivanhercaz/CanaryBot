@@ -25,6 +25,8 @@ a HTML file that works as CSV viewer (the same if a CSV checklist has been creat
 import colorama as c
 import datetime
 import inquirer
+import numpy as np
+import pandas as pd
 import re
 import sys
 
@@ -111,6 +113,8 @@ exceptions = [
     re.compile(r"\s(EE\.\s?UU\.|U\.\s?S\.\s?A\.|U\.\s?S\.)$")
 ]
 
+dataIndex = -1 
+duplicated = "duplicatedFullStopsDesc.csv"
 
 def setLogName(editMode):
     """Simple function to set the name of the log according to the editing mode.
@@ -184,15 +188,18 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
 
     # Item identifier formatted
     item = str(itemPage).lstrip("[[wikidata:").rstrip("]]")
+    
+    if description in duplicated:
+        print("Descripción duplicada: eliminada correctamente.")
 
     # Ask for the correct action
     questions = [
         inquirer.List('actions',
             message="What do you want to do?",
-            choices=['Remove full stop', 'Add description to checklist', 'Edit description', 'Skip description', 'Quit'],
+            choices=['Remove full stop', 'Add description to checklist', 'Edit description', 'Remove duplicates automatically', 'Skip description', 'Quit'],
         ),
     ]
-
+    
     answers = inquirer.prompt(questions)
 
     # Remove full stop
@@ -312,7 +319,7 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
                             "key": key + "-desc",
                             "msg": "full stop removed and other errors fixed (test mode)"
                         }
-
+                        
                         log.check(info, logName, mode="csv")
 
                 except Exception as e:
@@ -345,6 +352,24 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
 
         else:
             print("No changes were made.")
+
+    # Remove if the script find the same description again
+    elif answers["actions"] == "Remove duplicates automatically":
+        print("Duplicated. It should be removed.")
+        
+        global dataIndex
+        dataIndex += 1
+
+        rawDuplicated = {
+                "id": dataIndex,
+                "description": description
+        }
+
+        dataFrame = pd.DataFrame(rawDuplicated, columns=["description"], index=[dataIndex])
+
+        print(dataFrame)
+
+        dataFrame.to_csv(duplicated, mode="a")
 
     # Skip description
     elif answers["actions"] == "Skip description":
@@ -529,6 +554,7 @@ if __name__ == "__main__":
     # Query file
     rqFile = "fullStopsDescriptions.rq"
 
+    print(dataIndex)
     # Reading the query
     with open("queries/" + rqFile, "r") as queryFile:
         query = queryFile.read()
