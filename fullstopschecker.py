@@ -113,7 +113,7 @@ exceptions = [
     re.compile(r"\s(EE\.\s?UU\.|U\.\s?S\.\s?A\.|U\.\s?S\.)$")
 ]
 
-dataIndex = -1 
+dataIndex = -1
 duplicated = "duplicatedFullStopsDesc.csv"
 
 def setLogName(editMode):
@@ -471,8 +471,9 @@ def checkDesc(query, editMode):
                                     redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
                                     item.descriptions[key] = re.sub(r"\s?\.$", redFullStop, item.descriptions[key])
 
-                                    print("\n   {}{}{}{}".format(
-                                        c.Fore.WHITE, c.Style.BRIGHT, str(item).lstrip("[[wikidata:").rstrip("]]"), cR)
+                                    print("\n   {}{}{}{}\t{}".format(
+                                        c.Fore.WHITE, c.Style.BRIGHT, str(item).lstrip("[[wikidata:").rstrip("]]"), cR,
+                                        item.labels[key])
                                     )
                                     print(" {} {}:\t{}".format(misc["-"], lang[key], item.descriptions[key]))
                                     print(" {} {}:\t{}\n".format(misc["+"], misc["replace"], newDescription))
