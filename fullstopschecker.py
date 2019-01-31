@@ -555,29 +555,14 @@ if __name__ == "__main__":
     # Query file
     rqFile = "fullStopsDescriptions.rq"
 
-    print(dataIndex)
     # Reading the query
     with open("queries/" + rqFile, "r") as queryFile:
         query = queryFile.read()
 
-    question = [
-        inquirer.Confirm("confirmation",
-            message="Do you want to run the script?")
-    ]
+    print("Starting script...\n")
 
-    answer = inquirer.prompt(question)
+    # Ask for the edit mode (test or not)
+    editMode = u.editMode()
 
-    if answer["confirmation"] is True:
-        print("Starting script...\n")
-
-        editMode = u.editMode()
-
-        checkDesc(query, editMode)
-
-    elif answer["confirmation"] is False:
-        print("Stopping script...")
-
-        sys.exit()
-
-    else:
-        print("Wrong key!")
+    # Run the script
+    checkDesc(query, editMode)
