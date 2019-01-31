@@ -412,15 +412,60 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
             for row in reader:
                 print(row)
                 if description in row[1]:
-                    print(description)
-                    print("Debería ser eliminada [elaborar mecanismo]")
+                    try:
+                        # Check the editing mode
+                        if editMode is True:
+                            # Information string to print in the cli
+                            info = u"{}{}{}{}\t{}\tfull stop removed automatically".format(
+                                c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
+                            )
+                            print(info)
+
+                            # Information dictionary to make the log (without Colorama)
+                            info = {
+                                "time": timestamp,
+                                "item": item,
+                                "key": key + "-desc",
+                                "msg": "full stop removed automatically"
+                            }
+
+                            # Applying the edition
+                            itemPage.editDescriptions(replacement, summary=summary["removed"])
+
+                            # Checking and updating the CSV logfile
+                            log.check(info, logName, mode="csv")
+
+                        else:
+                            info = u"{}{}{}{}\t{}\tfull stop removed automatically(non edit made, test mode)".format(
+                                c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
+                            )
+                            print(info)
+
+                            info = {
+                                "time": timestamp,
+                                "item": item,
+                                "key": key + "-desc",
+                                "msg": "full stop removed automatically (non edit made, test mode)"
+                            }
+
+                            log.check(info, logName, mode="csv")
+
+                    except Exception as e:
+                        print(e)
+
+                        info = {
+                            "time": timestamp,
+                            "item": item,
+                            "key": key + "-desc",
+                            "msg": e
+                        }
+
+                        log.check(info, logName, mode="csv")
+
                 elif description not in row[1]:
                     writer = csv.writer(duplicatedFile, delimiter=",")
                     writer.writerow([dataIndex, description])
-                    print("Descripción añadida")
-
-                else:
-                    print("Algo fue mal")
+                    print("Duplicated description added to the file.")
 
     # Skip description
     elif answers["actions"] == "Skip description":
