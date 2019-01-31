@@ -23,10 +23,9 @@ Each action is checked and registered in a CSV log in /logs and, at the end, it 
 a HTML file that works as CSV viewer (the same if a CSV checklist has been created).
 '''
 import colorama as c
+import csv
 import datetime
 import inquirer
-import numpy as np
-import pandas as pd
 import re
 import sys
 
@@ -356,20 +355,24 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
     # Remove if the script find the same description again
     elif answers["actions"] == "Remove duplicates automatically":
         print("Duplicated. It should be removed.")
-        
+
         global dataIndex
         dataIndex += 1
 
-        rawDuplicated = {
-                "id": dataIndex,
-                "description": description
-        }
+        with open(duplicated, "r+") as duplicatedFile:
+            reader = csv.reader(duplicatedFile, delimiter=",")
+            for row in reader:
+                print(row)
+                if description in row[1]:
+                    print(description)
+                    print("Debería ser eliminada [elaborar mecanismo]")
+                elif description not in row[1]:
+                    writer = csv.writer(duplicatedFile, delimiter=",")
+                    writer.writerow([dataIndex, description])
+                    print("Descripción añadida")
 
-        dataFrame = pd.DataFrame(rawDuplicated, columns=["description"], index=[dataIndex])
-
-        print(dataFrame)
-
-        dataFrame.to_csv(duplicated, mode="a")
+                else:
+                    print("Algo fue mal")
 
     # Skip description
     elif answers["actions"] == "Skip description":
