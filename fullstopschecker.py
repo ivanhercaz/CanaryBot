@@ -402,16 +402,17 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
 
     # Remove if the script find the same description again
     elif answers["actions"] == "Remove duplicates automatically":
-        print("Duplicated. It should be removed.")
-
         global dataIndex
         dataIndex += 1
 
         with open(duplicated, "r+") as duplicatedFile:
             reader = csv.reader(duplicatedFile, delimiter=",")
             for row in reader:
-                print(row)
-                if description in row[1]:
+                if description not in row[1]:
+                    writer = csv.writer(duplicatedFile, delimiter=",")
+                    writer.writerow([dataIndex, description])
+                    print("Duplicated description added to the file.")
+
                     try:
                         # Check the editing mode
                         if editMode is True:
@@ -461,11 +462,6 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
                         }
 
                         log.check(info, logName, mode="csv")
-
-                elif description not in row[1]:
-                    writer = csv.writer(duplicatedFile, delimiter=",")
-                    writer.writerow([dataIndex, description])
-                    print("Duplicated description added to the file.")
 
     # Skip description
     elif answers["actions"] == "Skip description":
