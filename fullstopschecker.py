@@ -134,7 +134,6 @@ def setLogName(editMode):
 
 
 def removeDuplicated(item, key, description, newDescription, count, editMode, editGroup, logName):
-    print("Checking if it is duplicated...")
     if description in duplicated:
         try:
             # Check the editing mode
@@ -160,7 +159,7 @@ def removeDuplicated(item, key, description, newDescription, count, editMode, ed
                 log.check(info, logName, mode="csv")
 
             else:
-                info = u"{}{}{}{}\t{}\tfull stop removed automatically(non edit made, test mode)".format(
+                info = u"{}{}{}{}\t{}\tfull stop removed automatically (non edit made, test mode)".format(
                     c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
                 )
                 print(info)
