@@ -133,6 +133,60 @@ def setLogName(editMode):
     return script
 
 
+def removeDuplicated(item, key, description, newDescription, count, editMode, editGroup, logName):
+    print("Checking if it is duplicated...")
+    if description in duplicated:
+        try:
+            # Check the editing mode
+            if editMode is True:
+                # Information string to print in the cli
+                info = u"{}{}{}{}\t{}\tfull stop removed automatically".format(
+                    c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
+                )
+                print(info)
+
+                # Information dictionary to make the log (without Colorama)
+                info = {
+                    "time": timestamp,
+                    "item": item,
+                    "key": key + "-desc",
+                    "msg": "full stop removed automatically"
+                }
+
+                # Applying the edition
+                itemPage.editDescriptions(replacement, summary=summary["removed"])
+
+                # Checking and updating the CSV logfile
+                log.check(info, logName, mode="csv")
+
+            else:
+                info = u"{}{}{}{}\t{}\tfull stop removed automatically(non edit made, test mode)".format(
+                    c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
+                )
+                print(info)
+
+                info = {
+                    "time": timestamp,
+                    "item": item,
+                    "key": key + "-desc",
+                    "msg": "full stop removed automatically (non edit made, test mode)"
+                }
+
+                log.check(info, logName, mode="csv")
+
+        except Exception as e:
+            print(e)
+
+            info = {
+                "time": timestamp,
+                "item": item,
+                "key": key + "-desc",
+                "msg": e
+            }
+
+            log.check(info, logName, mode="csv")
+
+
 def editDesc(itemPage, key, description, newDescription, count, editMode, editGroup, logName):
     """Provides the available options and executes the corresponding editions.
 
@@ -188,57 +242,7 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
     # Item identifier formatted
     item = str(itemPage).lstrip("[[wikidata:").rstrip("]]")
 
-    if description in duplicated:
-        try:
-            # Check the editing mode
-            if editMode is True:
-                # Information string to print in the cli
-                info = u"{}{}{}{}\t{}\tfull stop removed automatically".format(
-                    c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
-                )
-                print(info)
-
-                # Information dictionary to make the log (without Colorama)
-                info = {
-                    "time": timestamp,
-                    "item": item,
-                    "key": key + "-desc",
-                    "msg": "full stop removed automatically"
-                }
-
-                # Applying the edition
-                itemPage.editDescriptions(replacement, summary=summary["removed"])
-
-                # Checking and updating the CSV logfile
-                log.check(info, logName, mode="csv")
-
-            else:
-                info = u"{}{}{}{}\t{}\tfull stop removed automatically(non edit made, test mode)".format(
-                    c.Fore.WHITE, c.Style.BRIGHT, item, cR, lang[key]
-                )
-                print(info)
-
-                info = {
-                    "time": timestamp,
-                    "item": item,
-                    "key": key + "-desc",
-                    "msg": "full stop removed automatically (non edit made, test mode)"
-                }
-
-                log.check(info, logName, mode="csv")
-
-        except Exception as e:
-            print(e)
-
-            info = {
-                "time": timestamp,
-                "item": item,
-                "key": key + "-desc",
-                "msg": e
-            }
-
-            log.check(info, logName, mode="csv")
-
+    
     # Ask for the correct action
     questions = [
         inquirer.List('actions',
@@ -558,6 +562,9 @@ def checkDesc(query, editMode):
                                     # Setting variables to pass to editDesc()
                                     description = item.descriptions[key]
                                     newDescription = re.sub(r"\s?\.$", "", item.descriptions[key])
+
+                                    # Check if the description is already in the CSV file
+                                    removeDuplicated(item, key, description, newDescription, count, editMode, editGroup, logName)
 
                                     # Show the full stop in red
                                     redFullStop = c.Fore.RED + c.Style.BRIGHT + "." + cR
