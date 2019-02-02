@@ -32,8 +32,8 @@ prepare-files:
 	curl -o ${JS}/${CSVTOHTMLTABLE} https://raw.githubusercontent.com/derekeder/csv-to-html-table/master/js/csv_to_html_table.js
 
 prepare-duplicatedcsv:
-	@echo "\nCreating an empty CSV for the duplicated descriptions"
-	touch duplicatedFullStopsDesc.csv
+	@echo "\nCreating a CSV for the duplicated descriptions"
+	echo "id,desc" >> duplicatedFullStopsDesc.csv
 
 install-pyrequirements:
 	@echo "\nInstalling all Python requirements from requirements.txt."
