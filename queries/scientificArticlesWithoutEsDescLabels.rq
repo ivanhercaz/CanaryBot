@@ -1,0 +1,17 @@
+# Artículos científicos sin descripción en español
+# Scientific articles without description in Spanish
+
+PREFIX schema: <http://schema.org/>
+
+SELECT ?item ?itemLabelEn ?itemLabelEs ?itemDescEn ?itemDescEs WHERE {
+  ?item wdt:P31 wd:Q13442814.
+  
+  ?item rdfs:label ?itemLabelEn filter(lang(?itemLabelEn) = "en").
+    
+  FILTER NOT EXISTS {
+    ?item schema:description ?itemDescEs filter (lang(?itemDescEs) = "es").
+    ?item rdfs:label ?itemLabelEs filter(lang(?itemLabelEs) = "es").
+  }
+}
+
+LIMIT 100000
