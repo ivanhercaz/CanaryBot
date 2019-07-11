@@ -118,23 +118,6 @@ exceptions = [
 dataIndex = -1
 duplicated = "duplicatedFullStopsDesc.csv"
 
-def setLogName(editMode):
-    """Simple function to set the name of the log according to the editing mode.
-
-    Returns
-    -------
-    string
-        log name with the form of "scriptName" if the script is going to edit, or
-        "scriptName-test" if the script is running in test mode.
-
-    """
-    if editMode is True:
-        script = scriptName
-    else:
-        script = scriptName + "-test"
-
-    return script
-
 
 def removeDuplicated(item, key, description, newDescription, count, editMode, editGroup, logName):
     if description in duplicated:
@@ -541,7 +524,7 @@ def checkDesc(query, editMode):
     edit = True
 
     # To set the log name depending of the editing mode
-    logName = setLogName(editMode)
+    logName = u.setLogName(editMode, scriptName)
 
     for item in sparqlQuery(query, site):
         # If "edit" is False, stop the script

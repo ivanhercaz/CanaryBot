@@ -60,3 +60,23 @@ def checkQueries():
     queriesAnswer = queriesAnswer[13:].strip("'}")
 
     return queriesAnswer
+
+
+def setLogName(editMode, scriptName):
+    """Simple function to set the name of the log according to the editing mode.
+
+    Returns
+    -------
+    string
+        log name with the form of "scriptName" if the script is going to edit, or
+        "scriptName-test" if the script is running in test mode.
+
+    """
+    if editMode is True:
+        script = scriptName
+    else:
+        script = scriptName + "-test"
+
+    return script
+
+
