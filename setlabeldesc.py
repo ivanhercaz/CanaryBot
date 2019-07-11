@@ -67,7 +67,8 @@ def setLabel(query, desc, lang, sourceLang, edit=False):
             if lang in item.labels:
                 lang = item.labels[lang]
                 langFilled += 1
-                existed = u"¡Ya existe la etiqueta en {}! Revisar descripción: {}-{}-{}-{}-[{}]-<{}>".format(lang, item.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
+                existed = f"¡Ya existe la etiqueta en {lang}! Revisar descripción: {item.title()}-{100 * langFilled / (langBlank + langFilled + 1)}-{langFilled}-{langBlank}-{lang}]-<{sourceLang}>"
+                # existed = u"¡Ya existe la etiqueta en {}! Revisar descripción: {}-{}-{}-{}-[{}]-<{}>".format(lang, item.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
 
                 log.check(existed, script)
             else:
@@ -81,8 +82,8 @@ def setLabel(query, desc, lang, sourceLang, edit=False):
 
                 if edit is True:
                     try:
-                        item.editEntity(data, summary=u"set {0}-label and {0}-desc from {1}-wiki".format(lang, sourceLang))
-                        print("Se ha editado el elemento.\n" + data)
+                        item.editEntity(data, summary=f"set {lang}-label and {lang}-desc from {sourceLang}-wiki")
+                        print(f"Se ha editado el elemento.\n{data}")
                         log.check(data, script)
                     except Exception as e:
                         print(e)
@@ -90,7 +91,7 @@ def setLabel(query, desc, lang, sourceLang, edit=False):
                         pass
                 if edit is False:
                     try:
-                        print("No se ha editado el elemento (modo de pruebas).\n" + data)
+                        print(f"No se ha editado el elemento (modo de pruebas).\n{data}")
                         log.check(data, script)
                     except Exception as e:
                         print(e)
@@ -100,7 +101,7 @@ def setLabel(query, desc, lang, sourceLang, edit=False):
                     print("Algo no ha funcionado correctamente")
 
         else:
-            notExisted = u"¡No existe la etiqueta en {}! {}-{}-{}-{}-[{}]-<{}>".format(sourceLang, item.title(), 100 * langFilled / (langBlank + langFilled + 1), langFilled, langBlank, lang, sourceLang)
+            notExisted = f"¡No existe la etiqueta en {sourceLang}! {item.title()}-{100 * langFilled / (langBlank + langFilled + 1)}-{langFilled}-{langBlank}-[{lang}]-<{sourceLang}>"
             print(notExisted)
 
             log.check(notExisted, script)
