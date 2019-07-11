@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# fullstopschecker.py
-# Distributed under the terms of the GNU General Public License v3.0
 '''
+fullstopschecker.py
+
 Script to remove all the full stops/periods of the descriptions in Wikidata items.
 
 The script run a SPARQL query in the Wikidata Query Service (WDQS) and then it check
@@ -21,7 +21,10 @@ Italian or Spanish). When the description meets the requirements there are five 
 
 Each action is checked and registered in a CSV log in /logs and, at the end, it generates
 a HTML file that works as CSV viewer (the same if a CSV checklist has been created).
+
+Distributed under the terms of the GNU General Public License v3.0
 '''
+
 import colorama as c
 import csv
 import datetime
