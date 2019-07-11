@@ -19,11 +19,11 @@ import colorama as c
 import datetime
 
 # Pywikibot
-from pywikibot import pagegenerators as pg
 import pywikibot
 
 # Local modules
 import log
+import utils as u
 
 # Configuration
 site = pywikibot.Site("wikidata", "wikidata")
@@ -33,20 +33,6 @@ timestamp = str(now.strftime("%Y-%m-%d %H:%M"))
 
 # Colorama reset
 cR = c.Style.RESET_ALL
-
-
-def sparqlQuery(query):
-    '''
-    Pending to value the possible migration to utils.py
-    '''
-
-    wdSite = pywikibot.Site("wikidata", "wikidata")
-    generator = pg.WikidataSPARQLPageGenerator(query, site=wdSite)
-
-    for wd in generator:
-        if (wd.exists()):
-            wd.get(get_redirect=True)
-            yield wd
 
 
 def setLabel(query, desc, lang, sourceLang, edit=False):
@@ -61,7 +47,7 @@ def setLabel(query, desc, lang, sourceLang, edit=False):
     langBlank = 0
     langFilled = 0
 
-    for item in sparqlQuery(query):
+    for item in u.sparqlQuery(query, site):
         if sourceLang in item.labels:
             sourceLang = item.labels[sourceLang]
             if lang in item.labels:

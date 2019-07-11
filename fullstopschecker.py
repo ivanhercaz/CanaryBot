@@ -480,31 +480,6 @@ def editDesc(itemPage, key, description, newDescription, count, editMode, editGr
         print("Something goes wrong...")
 
 
-def sparqlQuery(query, site):
-    """Run a SPARQL Query in WDQS.
-
-    Parameters
-    ----------
-    query : string
-        query to run
-    site : string
-        the site to perform the query
-
-    Returns
-    -------
-    generator
-        items in the query
-
-    """
-    generator = pg.WikidataSPARQLPageGenerator(query, site=site)
-
-    # For each item (wd) in the SPARQL query (generator)
-    for wd in generator:
-        if (wd.exists()):
-            wd.get(get_redirect=True)
-            yield wd
-
-
 def checkDesc(query, editMode):
     """Check if the description meet the requirements and show it to the operator.
 
@@ -526,7 +501,7 @@ def checkDesc(query, editMode):
     # To set the log name depending of the editing mode
     logName = u.setLogName(editMode, scriptName)
 
-    for item in sparqlQuery(query, site):
+    for item in u.sparqlQuery(query, site):
         # If "edit" is False, stop the script
         if edit is False:
             break

@@ -2,6 +2,9 @@ import inquirer
 import os
 import random
 
+# Pywikibot
+from pywikibot import pagegenerators as pg
+
 ''' Module  for useful snippets '''
 
 
@@ -79,3 +82,29 @@ def setLogName(editMode, scriptName):
         script = scriptName + "-test"
 
     return script
+
+
+def sparqlQuery(query, site):
+    """Run a SPARQL Query in WDQS.
+
+    Parameters
+    ----------
+    query : string
+        query to run
+    site : string
+        the site to perform the query
+
+    Returns
+    -------
+    generator
+        items in the query
+
+    """
+    generator = pg.WikidataSPARQLPageGenerator(query, site=site)
+
+    # For each item (wd) in the SPARQL query (generator)
+    for wd in generator:
+        if (wd.exists()):
+            wd.get(get_redirect=True)
+            yield wd
+
