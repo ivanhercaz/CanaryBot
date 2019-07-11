@@ -41,16 +41,17 @@ def sparqlQuery(query):
     '''
 
     wdSite = pywikibot.Site("wikidata", "wikidata")
-    generator = pg.WikidataSPARQLPageGenerator(query, site = wdSite)
+    generator = pg.WikidataSPARQLPageGenerator(query, site=wdSite)
 
     for wd in generator:
         if (wd.exists()):
-            wd.get(get_redirect = True)
+            wd.get(get_redirect=True)
             yield wd
 
-def setLabel(query, desc, lang, sourceLang, edit = False):
+
+def setLabel(query, desc, lang, sourceLang, edit=False):
     # Check if the script is running a test or is making editions
-    if edit == True:
+    if edit is True:
         script = scriptName + "-" + sourceLang + "-" + lang
         print("\nModo de edición")
     else:
@@ -73,21 +74,21 @@ def setLabel(query, desc, lang, sourceLang, edit = False):
                 langBlank += 1
 
                 data = {}
-                data.update({"labels": {lang: sourceLang} })
-                data.update({"descriptions": {lang: desc} })
+                data.update({"labels": {lang: sourceLang}})
+                data.update({"descriptions": {lang: desc}})
 
                 print("[{}]-<{}>".format(lang, sourceLang))
 
-                if edit == True:
+                if edit is True:
                     try:
-                        item.editEntity(data, summary = u"set {0}-label and {0}-desc from {1}-wiki".format(lang, sourceLang))
+                        item.editEntity(data, summary=u"set {0}-label and {0}-desc from {1}-wiki".format(lang, sourceLang))
                         print("Se ha editado el elemento.\n" + data)
                         log.check(data, script)
                     except Exception as e:
                         print(e)
                         log.check(e, script)
                         pass
-                if edit == False:
+                if edit is False:
                     try:
                         print("No se ha editado el elemento (modo de pruebas).\n" + data)
                         log.check(data, script)
