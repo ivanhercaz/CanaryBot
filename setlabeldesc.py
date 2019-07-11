@@ -15,6 +15,9 @@ made by Edoderoo for Wikidata. You can check the original sourcecode here:
 Distributed under the terms of the GNU General Public License v3.0
 '''
 
+import colorama as c
+import datetime
+
 # Pywikibot
 from pywikibot import pagegenerators as pg
 import pywikibot
@@ -22,8 +25,15 @@ import pywikibot
 # Local modules
 import log
 
-# Global variables
+# Configuration
+site = pywikibot.Site("wikidata", "wikidata")
 scriptName = "setlabeldesc"
+now = datetime.datetime.now()
+timestamp = str(now.strftime("%Y-%m-%d %H:%M"))
+
+# Colorama reset
+cR = c.Style.RESET_ALL
+
 
 def sparqlQuery(query):
   wdSite = pywikibot.Site("wikidata", "wikidata")
