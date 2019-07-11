@@ -14,8 +14,9 @@ made by Edoderoo for Wikidata. You can check the original sourcecode here:
 
 Distributed under the terms of the GNU General Public License v3.0
 '''
-from pywikibot import pagegenerators as pg
 
+# Pywikibot
+from pywikibot import pagegenerators as pg
 import pywikibot
 
 # Local modules
