@@ -4,6 +4,7 @@ import random
 
 ''' Module  for useful snippets '''
 
+
 def editGroups():
     ''' Method to check if the operator wants to create a set of changes in
     Edit groups. Check: https://www.wikidata.org/wiki/Wikidata:Edit_groups '''
@@ -78,5 +79,3 @@ def setLogName(editMode, scriptName):
         script = scriptName + "-test"
 
     return script
-
-

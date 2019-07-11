@@ -36,13 +36,17 @@ cR = c.Style.RESET_ALL
 
 
 def sparqlQuery(query):
-  wdSite = pywikibot.Site("wikidata", "wikidata")
-  generator = pg.WikidataSPARQLPageGenerator(query, site = wdSite)
+    '''
+    Pending to value the possible migration to utils.py
+    '''
 
-  for wd in generator:
-    if (wd.exists()):
-      wd.get(get_redirect = True)
-      yield wd
+    wdSite = pywikibot.Site("wikidata", "wikidata")
+    generator = pg.WikidataSPARQLPageGenerator(query, site = wdSite)
+
+    for wd in generator:
+        if (wd.exists()):
+            wd.get(get_redirect = True)
+            yield wd
 
 def setLabel(query, desc, lang, sourceLang, edit = False):
     # Check if the script is running a test or is making editions
